@@ -1,0 +1,2 @@
+# SolvdLaba
+Practical Tasks
