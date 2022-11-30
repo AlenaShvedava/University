@@ -3,12 +3,12 @@ package pl.slvd.university;
 import java.util.*;
 
 public class Applicant {
-    short id;
-    String firstLastName;
-    String dateOfBirth;
-    String faculty;
-    String speciality;
-    byte[] values = new byte[3]; //the number of grades will receive in exams
+    private short id;
+    private String firstLastName;
+    private String dateOfBirth;
+    private String faculty;
+    private String speciality;
+    private byte[] values = new byte[3]; //the number of grades will receive in exams
 
     public Applicant() {
 
@@ -58,13 +58,11 @@ public class Applicant {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Applicant applicant = (Applicant) o;
-        return id == applicant.id && Objects.equals(firstLastName, applicant.firstLastName) && Objects.equals(dateOfBirth, applicant.dateOfBirth) && Objects.equals(faculty, applicant.faculty) && Objects.equals(speciality, applicant.speciality) && Arrays.equals(values, applicant.values);
+        return Objects.equals(speciality, applicant.speciality);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, firstLastName, dateOfBirth, faculty, speciality);
-        result = 31 * result + Arrays.hashCode(values);
-        return result;
+        return Objects.hash(speciality);
     }
 }

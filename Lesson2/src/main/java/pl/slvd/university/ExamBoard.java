@@ -1,31 +1,30 @@
 package pl.slvd.university;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
+
+import static pl.slvd.university.ExamSheet.grades;
 
 public class ExamBoard {
-    static final byte MIN = 39;
-    static String result;
+    private static final byte MIN = 39;
 
-    static void passExam() {
+    public static void passExam() {
         System.out.printf("It's time for the exams. You have 3 exams. Passing score for each exam is %d \n", ExamBoard.MIN);
-        getValue(); //asking for grades for our exams
-
+        System.out.println("Are you ready to take your exams? (yes/no)");
+        Scanner scanner = new Scanner(System.in);
+        String answer = scanner.next().toUpperCase();
+        switch (answer) {
+            case "NO" -> passExam();
+            case "YES" -> {
+                ExamSheet.getGrades();
+                String result = grades[0] < MIN || grades[1] < MIN || grades[2] < MIN ? "Unfortunately, you did not pass the exam and did not enter the University.\n" : "Congratulations! You have passed all the exams.\n";
+                System.out.println(result);//asking for grades for our exams
+            }
+        }
     }
 
-    @NotNull
-    @Contract(" -> new")
-    public static byte[] getValue() {
+    public static int[] rate() {
         System.out.println("Your exam grades (0-100): \n");
-        int[] exam = new Random(100).ints(3,0,100).toArray();
-
-        ExamSheet examSheet = new ExamSheet(Arrays.toString(exam));
-        System.out.println(examSheet.toString(exam));
-
-        //result = exam[0] < MIN || exam[1] < MIN || exam[2] < MIN ? "Unfortunately, you did not pass the exam and did not enter the University.\n" : "Congratulations! You have passed all the exams.\n";
-        return new byte[]{(byte) exam[0], (byte) exam[1], (byte) exam[2]};
+        return new Random().ints(3, 37, 100).toArray();
     }
 }

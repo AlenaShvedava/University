@@ -4,7 +4,7 @@ import java.util.*;
 
 public class AdmissionsOffice {
 
-    static void registration(String getSpecialty, String getSpecialty2) { //the registration method accepts the applicant and the values of the faculty and specialty chosen by him
+    public static void registration(String getSpecialty, String getSpecialty2) { //the registration method accepts the applicant and the values of the faculty and specialty chosen by him
         System.out.printf("Apply to faculty: %s, speciality: %s? \n", getSpecialty, getSpecialty2);
         Scanner faculty = new Scanner(System.in);
         String chooseDone = faculty.next();
