@@ -23,7 +23,7 @@ public class Speciality extends Faculty {
                 ", numOfBudgetPlaces=" + numOfBudgetPlaces +
                 ", numOfPaidPlaces=" + numOfPaidPlaces +
                 ", exams='" + exams + '\'' +
-                ", facultyName='" + getFacultyName()+ '\'' +
+                ", facultyName='" + getFacultyName() + '\'' +
                 '}';
     }
 
@@ -48,12 +48,12 @@ public class Speciality extends Faculty {
     public String getExams() {
         return exams;
     }
-    /*
+
     public int getNumOfBudgetPlaces() {
         return numOfBudgetPlaces;
     }
 
     public int getNumOfPaidPlaces() {
         return numOfPaidPlaces;
-    }*/
+    }
 }

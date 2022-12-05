@@ -2,7 +2,7 @@ package pl.slvd.university;
 
 import java.util.Objects;
 
-public class Faculty {
+public abstract class Faculty {
     private final String facultyName;
 
     public Faculty(String facultyName) {

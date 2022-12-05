@@ -1,6 +1,10 @@
 package pl.slvd.university;
 
-import java.util.Scanner;
+import java.util.*;
+
+import static pl.slvd.university.AdmissionsOffice.applicants;
+import static pl.slvd.university.ExamBoard.MIN;
+import static pl.slvd.university.ExamSheet.grades;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,14 +22,20 @@ public class Main {
             System.out.println(speciality.getName());
         }
         Scanner faculty = new Scanner(System.in);
-        String getSpecialty = faculty.next().toUpperCase();
+        final String getSpecialty = faculty.next().toUpperCase();
         for (Speciality speciality : specialities) {
             if (getSpecialty.equals(speciality.getName())) {
+                speciality.getNumOfBudgetPlaces();
+                speciality.getNumOfPaidPlaces();
                 String getSpecialty2 = speciality.getFacultyName();
                 System.out.printf("Ok. Your faculty is %s. Your have to pass the exams: %s.\n", getSpecialty2, speciality.getExams());
                 AdmissionsOffice.registration(getSpecialty2, getSpecialty);
+
+                List<Applicant> sortedList = applicants.stream().filter(e -> e.getSpeciality().equalsIgnoreCase(getSpecialty)).toList();
                 ExamBoard.passExam();
-                // AdmissionsOffice.scoring();
+                if (!(grades[0] < MIN || grades[1] < MIN || grades[2] < MIN)) {
+                    Deanery.sortByGrades(sortedList, AdmissionsOffice.firstLastName, speciality.getNumOfBudgetPlaces(), speciality.getNumOfPaidPlaces());
+                }
             }
         }
     }

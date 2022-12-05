@@ -2,26 +2,18 @@ package pl.slvd.university;
 
 import java.util.*;
 
+import static java.util.Arrays.stream;
+
+import static pl.slvd.university.ExamSheet.grades;
+
 public class Applicant {
-    private short id;
-    private String firstLastName;
-    private String dateOfBirth;
-    private String faculty;
-    private String speciality;
-    private byte[] values = new byte[3]; //the number of grades will receive in exams
-
-    public Applicant() {
-
-    }
-
-    public Applicant(short id, String firstLastName, String dateOfBirth, String faculty, String speciality, byte[] values) {
-        this.id = id;
-        this.firstLastName = firstLastName;
-        this.dateOfBirth = dateOfBirth;
-        this.faculty = faculty;
-        this.speciality = speciality;
-        this.values = values;
-    }
+    private final short id;
+    private final String firstLastName;
+    private final String dateOfBirth;
+    private final String faculty;
+    private final String speciality;
+    private int[] values = new int[3]; //the number of grades will receive in exams
+    int sum = stream(getValues()).sum();
 
     public Applicant(short id, String firstLastName, String dateOfBirth, String faculty, String speciality) {
         this.id = id;
@@ -29,6 +21,16 @@ public class Applicant {
         this.dateOfBirth = dateOfBirth;
         this.faculty = faculty;
         this.speciality = speciality;
+    }
+
+    public Applicant(short id, String firstLastName, String dateOfBirth, String faculty, String speciality, int[] values, int sum) {
+        this.id = id;
+        this.firstLastName = firstLastName;
+        this.dateOfBirth = dateOfBirth;
+        this.faculty = faculty;
+        this.speciality = speciality;
+        this.values = values;
+        this.sum = sum;
     }
 
     public short getId() {
@@ -43,15 +45,29 @@ public class Applicant {
         return speciality;
     }
 
-    public byte[] getValues() {
+    public int[] getValues() {
+        return values;
+    }
+
+    public String getFirstLastName() {
+        return firstLastName;
+    }
+
+    public int getSum() {
+        return stream(getValues()).sum();
+    }
+
+    public int[] setValues() {
+        this.values = grades;
         return values;
     }
 
     @Override
     public String toString() {
-        return String.format("|%5s |%20s |%20s |%20s |%20s ", id + ".", firstLastName, dateOfBirth, faculty.toUpperCase(Locale.ROOT), speciality.toUpperCase(Locale.ROOT)) +
+        return String.format("%20s |%20s |%20s |%20s |%20s |%20s ", firstLastName, dateOfBirth, faculty.toUpperCase(Locale.ROOT), speciality.toUpperCase(Locale.ROOT), Arrays.toString(values), getSum()) +
                 '|';
     }
+
 
     @Override
     public boolean equals(Object o) {
