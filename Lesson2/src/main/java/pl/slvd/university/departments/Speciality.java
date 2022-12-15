@@ -1,50 +1,26 @@
 package pl.slvd.university.departments;
 
-import java.util.Objects;
+import static pl.slvd.university.departments.Faculty.INSTRUMENT;
 
-public class Speciality extends Faculty {
-    private final String name, exams;
-    private final int numOfBudgetPlaces, numOfPaidPlaces;
+public enum Speciality {
+    CONCERT_PERFORMER(INSTRUMENT, 2, 1, "Instrument, Solfeggio and Sight Reading"),
+    VOCAL_SINGER(Faculty.VOCAL, 2, 1, "Singing, Solfeggio and Piano"),
+    MUSICAL_DIRECTOR(Faculty.THEATRE, 1, 1, "Acting, Directing Composition Presentation and Musical Literature"),
+    CHOREOGRAPHER(Faculty.CHOREOGRAPHY, 1, 1, "Folk dance, Creative composition performance, Colloquium");
+    final Faculty category;
+    final int numOfBudgetPlaces;
+    final int numOfPaidPlaces;
+    final String exams;
 
-    public Speciality(String facultyName, String name, int numOfBudgetPlaces, int numOfPaidPlaces, String exams) {
-        super(facultyName);
-        this.name = name;
+    Speciality(Faculty category, int numOfBudgetPlaces, int numOfPaidPlaces, String exams) {
+        this.category = category;
         this.numOfBudgetPlaces = numOfBudgetPlaces;
         this.numOfPaidPlaces = numOfPaidPlaces;
         this.exams = exams;
     }
 
-    @Override
-    public String toString() {
-        return "Speciality{" +
-                "name='" + name + '\'' +
-                ", numOfBudgetPlaces=" + numOfBudgetPlaces +
-                ", numOfPaidPlaces=" + numOfPaidPlaces +
-                ", exams='" + exams + '\'' +
-                ", facultyName='" + getFacultyName() + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Speciality that = (Speciality) o;
-        return numOfBudgetPlaces == that.numOfBudgetPlaces && numOfPaidPlaces == that.numOfPaidPlaces && Objects.equals(name, that.name) && Objects.equals(exams, that.exams);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), name, numOfBudgetPlaces, numOfPaidPlaces, exams);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getExams() {
-        return exams;
+    public Faculty getCategory() {
+        return category;
     }
 
     public int getNumOfBudgetPlaces() {
@@ -53,5 +29,9 @@ public class Speciality extends Faculty {
 
     public int getNumOfPaidPlaces() {
         return numOfPaidPlaces;
+    }
+
+    public String getExams() {
+        return exams;
     }
 }

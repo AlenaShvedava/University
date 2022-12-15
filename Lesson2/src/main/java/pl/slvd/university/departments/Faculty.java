@@ -2,36 +2,24 @@ package pl.slvd.university.departments;
 
 import pl.slvd.university.administration.Deanery;
 
-import java.util.Objects;
+public enum Faculty {
+    INSTRUMENT(new Deanery.Dean("Brian Ellis"), 1),
+    VOCAL(new Deanery.Dean("Sherry Green"), 2),
+    THEATRE(new Deanery.Dean("Michael Lawson"), 3),
+    CHOREOGRAPHY(new Deanery.Dean("Arlene Garcia"), 4);
+    private final Deanery.Dean dean;
+    private final int campus;
 
-public abstract class Faculty {
-    private final String facultyName;
-
-    public Faculty(String facultyName) {
-        this.facultyName = facultyName;
+    Faculty(Deanery.Dean dean, int campus) {
+        this.dean = dean;
+        this.campus = campus;
     }
 
-    public String getFacultyName() {
-        return facultyName;
+    public Deanery.Dean getDean() {
+        return dean;
     }
 
-    @Override
-    public String toString() {
-        return "Faculty{" +
-                "facultyName='" + getFacultyName() + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Faculty faculty = (Faculty) o;
-        return Objects.equals(getFacultyName(), faculty.getFacultyName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getFacultyName());
+    public int getCampus() {
+        return campus;
     }
 }

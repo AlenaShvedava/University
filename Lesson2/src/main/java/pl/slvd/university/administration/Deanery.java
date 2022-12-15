@@ -8,6 +8,17 @@ import java.util.stream.IntStream;
 import static pl.slvd.university.Main.LOG;
 
 public class Deanery implements Comparator<Applicant> {
+    public static class Dean {
+        private final String name;
+
+        public Dean(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
 
     @Override
     public int compare(Applicant o1, Applicant o2) {
@@ -18,7 +29,7 @@ public class Deanery implements Comparator<Applicant> {
     }
 
     public static void sortByGrades(List<Applicant> sortedList, String firstLastName, int NumOfBudgetPlaces, int NumOfPaidPlaces, String getSpecialty) throws Exception {
-        System.out.println("Ready to see the lists of enrolled in the University?");
+        System.out.println("Do you want to see the rating of Applicants for your Specialty? (yes/no)");
         LOG.warn("Confirmation required. Possible input error");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
@@ -36,24 +47,25 @@ public class Deanery implements Comparator<Applicant> {
                     Set<Applicant> sortedApplicants = new TreeSet<>(new Deanery());
                     sortedApplicants.addAll(sortedList);
                     List<Applicant> sortedApplicantsCopy = sortedApplicants.stream().toList();
-                    IntStream.range(0, sortedApplicantsCopy.size()).forEach(i ->
-                            System.out.println((i + 1) + ". " + sortedApplicantsCopy.get(i)));
+                    System.out.println("\nRATING LIST:\n");
+                    IntStream.range(0, sortedApplicantsCopy.size()).forEach(i -> System.out.println((i + 1) + ". " + sortedApplicantsCopy.get(i)));
                     int sum = NumOfBudgetPlaces + NumOfPaidPlaces;
-                    System.out.printf("For the specialty %s is provided:\n Budget places - %d\n Paid places - %d\n", getSpecialty, NumOfBudgetPlaces, NumOfPaidPlaces);
+                    System.out.printf("\nFor the specialty %s is provided:\nBudget places - %d\nPaid places - %d\n", getSpecialty, NumOfBudgetPlaces, NumOfPaidPlaces);
                     LOG.info("Search for an Applicant in the list, show his final result and exit from the program");
                     for (int i = 0; i < sortedApplicantsCopy.size(); i++) {
                         if (sortedApplicantsCopy.get(i).getFirstLastName().equals(firstLastName)) {
                             if (i >= sum) {
-                                System.out.println("Unfortunately, you are not enrolled in the University");
+                                System.out.println("\nUnfortunately, you are not enrolled in the University");
                                 break;
                             } else if (sortedApplicantsCopy.get(i).getFirstLastName().equals(firstLastName)) {
                                 if (i <= NumOfBudgetPlaces - 1) {
-                                    System.out.println("Great! You are enrolled in the University for a budget place!");
+                                    System.out.println("\nGreat! You are enrolled in the University for a budget place!");
                                     break;
                                 } else if (sortedApplicantsCopy.get(i).getFirstLastName().equals(firstLastName)) {
                                     if (i >= NumOfBudgetPlaces) {
                                         if (i <= (sum - 1)) {
-                                            System.out.println("Great! You are enrolled in paid education at the University! Your studies will cost $2000 per year");
+                                            System.out.println("\nGreat! You are enrolled in Paid education at the University!\nGo to the Accounting department to conclude a payment agreement.\n");
+                                            Accounting.agreement(Accounting.Bill.EDUCATION);
                                             break;
                                         }
                                     }

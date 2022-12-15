@@ -1,16 +1,17 @@
 package pl.slvd.university.people;
 
-import java.util.*;
+import pl.slvd.university.documents.Pass;
 
-import static java.util.Arrays.stream;
+import java.util.*;
 
 import static pl.slvd.university.documents.ExamSheet.grades;
 
 public class Applicant {
     private final short id;
     private final String firstLastName, dateOfBirth, faculty, speciality;
-    private int[] values = new int[3]; //the number of grades will receive in exams
-    public int sum;
+    private ArrayList<Integer> values = new ArrayList<>(Arrays.asList(0, 0, 0)); //the number of grades will receive in exams
+    public static int sum;
+    Pass myPass;
 
     public Applicant(short id, String firstLastName, String dateOfBirth, String faculty, String speciality) {
         this.id = id;
@@ -20,14 +21,14 @@ public class Applicant {
         this.speciality = speciality;
     }
 
-    public Applicant(short id, String firstLastName, String dateOfBirth, String faculty, String speciality, int[] values, int sum) {
+    public Applicant(short id, String firstLastName, String dateOfBirth, String faculty, String speciality, ArrayList<Integer> values, int sum) {
         this.id = id;
         this.firstLastName = firstLastName;
         this.dateOfBirth = dateOfBirth;
         this.faculty = faculty;
         this.speciality = speciality;
         this.values = values;
-        this.sum = sum;
+        Applicant.sum = sum;
     }
 
     public short getId() {
@@ -42,7 +43,7 @@ public class Applicant {
         return speciality;
     }
 
-    public int[] getValues() {
+    public ArrayList<Integer> getValues() {
         return values;
     }
 
@@ -51,17 +52,17 @@ public class Applicant {
     }
 
     public int getSum() {
-        return stream(getValues()).sum();
+        return getValues().stream().mapToInt(Integer::valueOf).sum();
     }
 
-    public int[] setValues() {
-        this.values = grades;
+    public ArrayList<Integer> setValues() {
+        values = grades;
         return values;
     }
 
     @Override
     public String toString() {
-        return String.format("%20s |%20s |%20s |%20s |%20s |%20s ", firstLastName, dateOfBirth, faculty.toUpperCase(Locale.ROOT), speciality.toUpperCase(Locale.ROOT), Arrays.toString(values).replace("[", "").replace("]", ""), getSum());
+        return String.format("%25s |%20s |%20s |%25s |%20s |%10s ", firstLastName, dateOfBirth, faculty.toUpperCase(Locale.ROOT), speciality.toUpperCase(Locale.ROOT), values.toString().replace("[", "").replace("]", ""), getSum());
     }
 
     @Override
@@ -69,11 +70,11 @@ public class Applicant {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Applicant applicant = (Applicant) o;
-        return Objects.equals(speciality, applicant.speciality);
+        return id == applicant.id && Objects.equals(firstLastName, applicant.firstLastName) && Objects.equals(dateOfBirth, applicant.dateOfBirth) && Objects.equals(faculty, applicant.faculty) && Objects.equals(speciality, applicant.speciality) && Objects.equals(myPass, applicant.myPass);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(speciality);
+        return Objects.hash(id, firstLastName, dateOfBirth, faculty, speciality, myPass);
     }
 }
