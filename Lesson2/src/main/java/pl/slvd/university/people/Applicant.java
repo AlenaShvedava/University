@@ -1,7 +1,9 @@
 package pl.slvd.university.people;
 
 import pl.slvd.university.documents.Pass;
+import pl.slvd.university.state.*;
 
+import java.io.IOException;
 import java.util.*;
 
 import static pl.slvd.university.documents.ExamSheet.grades;
@@ -12,6 +14,7 @@ public class Applicant {
     private ArrayList<Integer> values = new ArrayList<>(Arrays.asList(0, 0, 0)); //the number of grades will receive in exams
     public static int sum;
     Pass myPass;
+    Activity activity;
 
     public Applicant(short id, String firstLastName, String dateOfBirth, String faculty, String speciality) {
         this.id = id;
@@ -29,6 +32,10 @@ public class Applicant {
         this.speciality = speciality;
         this.values = values;
         Applicant.sum = sum;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     public short getId() {
@@ -70,11 +77,33 @@ public class Applicant {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Applicant applicant = (Applicant) o;
-        return id == applicant.id && Objects.equals(firstLastName, applicant.firstLastName) && Objects.equals(dateOfBirth, applicant.dateOfBirth) && Objects.equals(faculty, applicant.faculty) && Objects.equals(speciality, applicant.speciality) && Objects.equals(myPass, applicant.myPass);
+        boolean isIdEquals = id == applicant.id;
+        boolean isNameEquals = Objects.equals(firstLastName, applicant.firstLastName);
+        boolean isDateOfBirthEquals = Objects.equals(dateOfBirth, applicant.dateOfBirth);
+        boolean isFacultyEquals = Objects.equals(faculty, applicant.faculty);
+        boolean isSpecialityEquals = Objects.equals(speciality, applicant.speciality);
+        boolean isMyPassEquals = Objects.equals(myPass, applicant.myPass);
+        return isIdEquals && isNameEquals && isDateOfBirthEquals && isFacultyEquals && isSpecialityEquals && isMyPassEquals;
     }
+
 
     @Override
     public int hashCode() {
         return Objects.hash(id, firstLastName, dateOfBirth, faculty, speciality, myPass);
+    }
+    public void changeActivity() {
+        if (activity instanceof ReadRules) {
+            setActivity(new ChoosingSpeciality());
+        } else if (activity instanceof ChoosingSpeciality) {
+            setActivity(new Registration());
+        } else if (activity instanceof Registration) {
+            setActivity(new PassExams());
+        } else if (activity instanceof PassExams) {
+            setActivity(new SeeResults());
+        } else
+            setActivity(new ReturnDocuments());
+    }
+    public void go() throws IOException {
+        activity.go();
     }
 }

@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import static pl.slvd.university.Main.LOG;
+import static pl.slvd.university.Main.applicant;
 import static pl.slvd.university.documents.Pass.show;
 
 public class Accounting {
@@ -56,8 +57,10 @@ public class Accounting {
         } else {
             switch (chooseDone.toUpperCase(Locale.ROOT)) {
                 case "NO" -> {
-                    LOG.info("Refused");
+                    LOG.info("Refused. Applicant goes to return his documents");
                     System.out.println("Ok. You have decided not to study on a Paid basis\nGo to the Admissions Office to return the documents\n");
+                    applicant.changeActivity();
+                    applicant.go();
                     AdmissionsOffice.returnOfDocuments();
                 }
                 case "YES" -> {

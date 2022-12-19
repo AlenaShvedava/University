@@ -6,19 +6,9 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 import static pl.slvd.university.Main.LOG;
+import static pl.slvd.university.Main.applicant;
 
 public class Deanery implements Comparator<Applicant> {
-    public static class Dean {
-        private final String name;
-
-        public Dean(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-    }
 
     @Override
     public int compare(Applicant o1, Applicant o2) {
@@ -56,12 +46,16 @@ public class Deanery implements Comparator<Applicant> {
                         if (sortedApplicantsCopy.get(i).getFirstLastName().equals(firstLastName)) {
                             if (i >= sum) {
                                 System.out.println("\nUnfortunately, you are not enrolled in the University");
+                                LOG.info("Applicant goes to return his documents");
+                                applicant.changeActivity();
+                                applicant.go();
+                                AdmissionsOffice.returnOfDocuments();
                                 break;
-                            } else if (sortedApplicantsCopy.get(i).getFirstLastName().equals(firstLastName)) {
+                            } else {
                                 if (i <= NumOfBudgetPlaces - 1) {
                                     System.out.println("\nGreat! You are enrolled in the University for a budget place!");
                                     break;
-                                } else if (sortedApplicantsCopy.get(i).getFirstLastName().equals(firstLastName)) {
+                                } else {
                                     if (i >= NumOfBudgetPlaces) {
                                         if (i <= (sum - 1)) {
                                             System.out.println("\nGreat! You are enrolled in Paid education at the University!\nGo to the Accounting department to conclude a payment agreement.\n");

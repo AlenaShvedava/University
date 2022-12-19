@@ -10,11 +10,10 @@ public class ExamSheet {
     public static ArrayList<Integer> grades = ExamBoard.rate();
 
     public static void getGrades() {
-        LOG.info("Grades are given by Random");
+        LOG.info("Exam grades from ExamSheet #2326 were shown");
     }
 
     public static void scoreCard() {
-
         System.out.println("Your exam grades (0-100):");
         System.out.println(grades + "\n");
     }

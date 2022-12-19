@@ -4,6 +4,7 @@ import pl.slvd.university.documents.ExamSheet;
 
 import java.util.*;
 
+import static pl.slvd.university.Main.applicant;
 import static pl.slvd.university.documents.ExamSheet.grades;
 import static pl.slvd.university.Main.LOG;
 
@@ -29,19 +30,25 @@ public class ExamBoard {
                 case "YES" -> {
                     LOG.info("Confirmed. The Examination Board starts the exam");
                     ExamSheet.getGrades();
-                    LOG.info("Examination grades are checked for a passing score");
-                    String result = grades.get(0) < MIN_PASS_SCORE || grades.get(1) < MIN_PASS_SCORE || grades.get(2) < MIN_PASS_SCORE ? "Exam Board:\nUnfortunately, you did not pass the exam and did not enter the University." : "Exam Board:\nCongratulations! You have passed all the exams.";
+                     LOG.info("Examination grades are checked for a passing score");
+                     applicant.changeActivity();
+                     applicant.go();
+                    String result = grades.stream().anyMatch(grade -> grade < MIN_PASS_SCORE) ? "Exam Board:\nUnfortunately, you did not pass the exam and did not enter the University." : "Exam Board:\nCongratulations! You have passed all the exams.";
                     System.out.println(result);//asking for grades for our exams
                     ExamSheet.scoreCard();
-                    if (grades.get(0) < MIN_PASS_SCORE || grades.get(1) < MIN_PASS_SCORE || grades.get(2) < MIN_PASS_SCORE) {
-                        LOG.info("Exiting the program");
+                    if (grades.stream().anyMatch(grade -> grade < MIN_PASS_SCORE)) {
+                        LOG.info("The Applicant goes to return his documents");
+                        applicant.changeActivity();
+                        applicant.go();
+                        AdmissionsOffice.returnOfDocuments();
+
                     }
                 }
             }
         }
     }
-
     public static ArrayList<Integer> rate() {
+        //return new Random().ints(3,37,100).allMatch();
         ArrayList<Integer> numbersGenerated = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             numbersGenerated.add(random.nextInt(37)+62);

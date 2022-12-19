@@ -5,8 +5,7 @@ import pl.slvd.university.people.Applicant;
 
 import java.util.*;
 
-import static pl.slvd.university.Main.LOG;
-import static pl.slvd.university.Main.main;
+import static pl.slvd.university.Main.*;
 
 public class AdmissionsOffice {
     public static List<Applicant> applicants = new ArrayList<>();
@@ -31,6 +30,8 @@ public class AdmissionsOffice {
                 }
                 case "YES": {
                     LOG.info("Data confirmed. Additional information requested");
+                    applicant.changeActivity();
+                    applicant.go();
                     System.out.println("Enter your first and last name \n"); //enter personal data to complete the registration
                     List<String> name = new ArrayList<>();
                     name.add(faculty.next());
