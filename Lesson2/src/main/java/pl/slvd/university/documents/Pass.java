@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import static pl.slvd.university.Main.LOG;
-import static pl.slvd.university.administration.AdmissionsOffice.firstLastName;
+import static pl.slvd.university.Main.applicant;
 
 public class Pass {
     private final String name;
@@ -19,7 +19,7 @@ public class Pass {
     }
 
     public static void give() throws Exception {
-        Pass myPass = new Pass(firstLastName);
+        Pass myPass = new Pass(applicant.getFirstLastName());
         System.out.println("\nAdmission Office:\nSIGN THE CONTRACT:\nYou are going to leave your documents with us.\nIn return, you will be issued an Applicant Pass.\nSign that the documents have been exchanged (yes/no)\n");
         LOG.warn("Information requested. Possible input error");
         Scanner scanner = new Scanner(System.in);
@@ -60,7 +60,7 @@ public class Pass {
 
         System.out.println(" " + (center("", 25, '_') + " "));
         System.out.println("|" + (center("P A S S", 25, ' ') + "|"));
-        System.out.println("|" + (center(firstLastName, 25, ' ') + "|"));
+        System.out.println("|" + (center(applicant.getFirstLastName(), 25, ' ') + "|"));
         System.out.println("|" + (center("", 25, '_') + "|"));
     }
 

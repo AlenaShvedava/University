@@ -1,6 +1,7 @@
 package pl.slvd.university.administration;
 
 import pl.slvd.university.people.Applicant;
+import pl.slvd.university.state.SaveLoadFiles;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -49,6 +50,7 @@ public class Deanery implements Comparator<Applicant> {
                                 LOG.info("Applicant goes to return his documents");
                                 applicant.changeActivity();
                                 applicant.go();
+                                SaveLoadFiles.load("Lesson2/src/main/resources/state.bin");
                                 AdmissionsOffice.returnOfDocuments();
                                 break;
                             } else {

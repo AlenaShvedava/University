@@ -1,6 +1,7 @@
 package pl.slvd.university.administration;
 
 import pl.slvd.university.documents.ExamSheet;
+import pl.slvd.university.state.SaveLoadFiles;
 
 import java.util.*;
 
@@ -33,6 +34,7 @@ public class ExamBoard {
                      LOG.info("Examination grades are checked for a passing score");
                      applicant.changeActivity();
                      applicant.go();
+                    SaveLoadFiles.load("Lesson2/src/main/resources/state.bin");
                     String result = grades.stream().anyMatch(grade -> grade < MIN_PASS_SCORE) ? "Exam Board:\nUnfortunately, you did not pass the exam and did not enter the University." : "Exam Board:\nCongratulations! You have passed all the exams.";
                     System.out.println(result);//asking for grades for our exams
                     ExamSheet.scoreCard();
@@ -40,6 +42,7 @@ public class ExamBoard {
                         LOG.info("The Applicant goes to return his documents");
                         applicant.changeActivity();
                         applicant.go();
+                        SaveLoadFiles.load("Lesson2/src/main/resources/state.bin");
                         AdmissionsOffice.returnOfDocuments();
 
                     }

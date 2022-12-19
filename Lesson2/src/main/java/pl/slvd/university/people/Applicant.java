@@ -4,13 +4,14 @@ import pl.slvd.university.documents.Pass;
 import pl.slvd.university.state.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 import static pl.slvd.university.documents.ExamSheet.grades;
 
-public class Applicant {
+public class Applicant implements Serializable {
     private final short id;
-    private final String firstLastName, dateOfBirth, faculty, speciality;
+    private String firstLastName, dateOfBirth, faculty, speciality;
     private ArrayList<Integer> values = new ArrayList<>(Arrays.asList(0, 0, 0)); //the number of grades will receive in exams
     public static int sum;
     Pass myPass;
@@ -38,6 +39,22 @@ public class Applicant {
         this.activity = activity;
     }
 
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    public void setFirstLastName(String firstLastName) {
+        this.firstLastName = firstLastName;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public short getId() {
         return id;
     }
@@ -52,6 +69,10 @@ public class Applicant {
 
     public ArrayList<Integer> getValues() {
         return values;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public String getFirstLastName() {
@@ -86,11 +107,11 @@ public class Applicant {
         return isIdEquals && isNameEquals && isDateOfBirthEquals && isFacultyEquals && isSpecialityEquals && isMyPassEquals;
     }
 
-
     @Override
     public int hashCode() {
         return Objects.hash(id, firstLastName, dateOfBirth, faculty, speciality, myPass);
     }
+
     public void changeActivity() {
         if (activity instanceof ReadRules) {
             setActivity(new ChoosingSpeciality());
@@ -103,6 +124,7 @@ public class Applicant {
         } else
             setActivity(new ReturnDocuments());
     }
+
     public void go() throws IOException {
         activity.go();
     }
