@@ -1,6 +1,8 @@
-package pl.slvd.university.departments;
+package pl.solvd.university.departments;
 
-import static pl.slvd.university.departments.Faculty.INSTRUMENT;
+import pl.solvd.university.people.Dean;
+
+import static pl.solvd.university.departments.Faculty.INSTRUMENT;
 
 public enum Speciality {
     CONCERT_PERFORMER(INSTRUMENT, 2, 1, "Instrument, Solfeggio and Sight Reading"),
@@ -11,6 +13,7 @@ public enum Speciality {
     final int numOfBudgetPlaces;
     final int numOfPaidPlaces;
     final String exams;
+    public Dean dean;
 
     Speciality(Faculty category, int numOfBudgetPlaces, int numOfPaidPlaces, String exams) {
         this.category = category;
@@ -33,5 +36,9 @@ public enum Speciality {
 
     public String getExams() {
         return exams;
+    }
+
+    public Dean getDean() {
+        return getCategory().getDean();
     }
 }

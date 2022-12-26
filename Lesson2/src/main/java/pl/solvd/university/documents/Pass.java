@@ -1,11 +1,12 @@
-package pl.slvd.university.documents;
+package pl.solvd.university.documents;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
 
-import static pl.slvd.university.Main.LOG;
-import static pl.slvd.university.Main.applicant;
+import static pl.solvd.university.Main.LOG;
+import static pl.solvd.university.Main.applicant;
 
 public class Pass {
     private final String name;
@@ -14,28 +15,29 @@ public class Pass {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public static void give() throws Exception {
+    public static void give() {
         Pass myPass = new Pass(applicant.getFirstLastName());
+        LOG.info("\nApplicant is issued a pass");
         System.out.println("\nAdmission Office:\nSIGN THE CONTRACT:\nYou are going to leave your documents with us.\nIn return, you will be issued an Applicant Pass.\nSign that the documents have been exchanged (yes/no)\n");
-        LOG.warn("Information requested. Possible input error");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
         if ((!(answer.toUpperCase(Locale.ROOT).equals("YES")) && (!(answer.toUpperCase(Locale.ROOT).equals("NO"))))) {
-            LOG.error("Exception: Invalid input. The program is closed");
-            throw new Exception("You entered an invalid value");
+            try {
+                throw new IOException("Exception: You entered an invalid value. Possible answers: yes/no. Let's try again");
+            } catch (IOException e) {
+                LOG.error("Exception: Invalid input. Something went wrong. Let's try again");
+                System.out.println(e.getMessage());
+                give();
+            }
         } else {
             switch (answer) {
                 case "NO" -> {
-                    LOG.info("Refused");
+                    LOG.info("The Applicant does not want to give his documents. To pass the exams, you must leave your documents at the Admissions Office");
                     System.out.println("Signature required");
                     give();
                 }
                 case "YES" -> {
-                    LOG.info("Confirmed");
+                    LOG.info("The Applicant agrees to give his documents in exchange for Pass to the exams");
                     System.out.println("\nYou received an Applicant's pass");
                     show();
                 }
@@ -45,7 +47,6 @@ public class Pass {
 
     public static void take() {
         System.out.println("Admission Office:\nYou handed over the Applicant's pass");
-
     }
 
     public static String center(String string, int length, char pad) {

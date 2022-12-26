@@ -1,33 +1,38 @@
-package pl.slvd.university.people;
+package pl.solvd.university.people;
 
-import pl.slvd.university.documents.Pass;
-import pl.slvd.university.state.*;
+import pl.solvd.university.documents.Pass;
+import pl.solvd.university.state.*;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
-import static pl.slvd.university.documents.ExamSheet.grades;
+import static pl.solvd.university.documents.ExamSheet.grades;
 
 public class Applicant implements Serializable {
-    private final short id;
-    private String firstLastName, dateOfBirth, faculty, speciality;
-    private ArrayList<Integer> values = new ArrayList<>(Arrays.asList(0, 0, 0)); //the number of grades will receive in exams
+    private int id;
+    private String firstName, lastName, firstLastName, dateOfBirth, faculty, speciality;
+    private ArrayList<Integer> values = new ArrayList<>(Arrays.asList(0, 0, 0));
     public static int sum;
     Pass myPass;
     Activity activity;
 
-    public Applicant(short id, String firstLastName, String dateOfBirth, String faculty, String speciality) {
+    public Applicant() {
+    }
+
+    public Applicant(short id, String firstName, String lastName, String dateOfBirth, String faculty, String speciality) {
         this.id = id;
-        this.firstLastName = firstLastName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.faculty = faculty;
         this.speciality = speciality;
     }
 
-    public Applicant(short id, String firstLastName, String dateOfBirth, String faculty, String speciality, ArrayList<Integer> values, int sum) {
+    public Applicant(int id, String firstName, String lastName, String dateOfBirth, String faculty, String speciality, ArrayList<Integer> values, int sum) {
         this.id = id;
-        this.firstLastName = firstLastName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.faculty = faculty;
         this.speciality = speciality;
@@ -35,8 +40,16 @@ public class Applicant implements Serializable {
         Applicant.sum = sum;
     }
 
-    public void setActivity(Activity activity) {
-        this.activity = activity;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public void setFaculty(String faculty) {
@@ -47,16 +60,12 @@ public class Applicant implements Serializable {
         this.speciality = speciality;
     }
 
-    public void setFirstLastName(String firstLastName) {
-        this.firstLastName = firstLastName;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public short getId() {
-        return id;
+    public String getFirstLastName() {
+        return String.format("%s %s", this.firstName, this.lastName);
     }
 
     public String getFaculty() {
@@ -75,10 +84,6 @@ public class Applicant implements Serializable {
         return dateOfBirth;
     }
 
-    public String getFirstLastName() {
-        return firstLastName;
-    }
-
     public int getSum() {
         return getValues().stream().mapToInt(Integer::valueOf).sum();
     }
@@ -90,7 +95,7 @@ public class Applicant implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%25s |%20s |%20s |%25s |%20s |%10s ", firstLastName, dateOfBirth, faculty.toUpperCase(Locale.ROOT), speciality.toUpperCase(Locale.ROOT), values.toString().replace("[", "").replace("]", ""), getSum());
+        return String.format("%25s |%20s |%20s |%25s |%20s |%10s ", getFirstLastName(), getDateOfBirth(), getFaculty().toUpperCase(Locale.ROOT), getSpeciality().toUpperCase(Locale.ROOT), getValues().toString().replace("[", "").replace("]", ""), getSum());
     }
 
     @Override
@@ -112,20 +117,11 @@ public class Applicant implements Serializable {
         return Objects.hash(id, firstLastName, dateOfBirth, faculty, speciality, myPass);
     }
 
-    public void changeActivity() {
-        if (activity instanceof ReadRules) {
-            setActivity(new ChoosingSpeciality());
-        } else if (activity instanceof ChoosingSpeciality) {
-            setActivity(new Registration());
-        } else if (activity instanceof Registration) {
-            setActivity(new PassExams());
-        } else if (activity instanceof PassExams) {
-            setActivity(new SeeResults());
-        } else
-            setActivity(new ReturnDocuments());
+    public void changeActivity(Activity before, Activity after) {
+        setActivity(after);
     }
 
-    public void go() throws IOException {
-        activity.go();
+    public void save() throws IOException {
+        activity.save();
     }
 }
