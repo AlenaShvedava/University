@@ -11,11 +11,11 @@ import static pl.solvd.university.Main.applicant;
 public class Pass {
     private final String name;
 
-    public Pass(String name) {
+    private Pass(String name) {
         this.name = name;
     }
 
-    public static void give() {
+    public static void giveToApplicant() {
         Pass myPass = new Pass(applicant.getFirstLastName());
         LOG.info("\nApplicant is issued a pass");
         System.out.println("\nAdmission Office:\nSIGN THE CONTRACT:\nYou are going to leave your documents with us.\nIn return, you will be issued an Applicant Pass.\nSign that the documents have been exchanged (yes/no)\n");
@@ -27,14 +27,14 @@ public class Pass {
             } catch (IOException e) {
                 LOG.error("Exception: Invalid input. Something went wrong. Let's try again");
                 System.out.println(e.getMessage());
-                give();
+                giveToApplicant();
             }
         } else {
             switch (answer) {
                 case "NO" -> {
                     LOG.info("The Applicant does not want to give his documents. To pass the exams, you must leave your documents at the Admissions Office");
                     System.out.println("Signature required");
-                    give();
+                    giveToApplicant();
                 }
                 case "YES" -> {
                     LOG.info("The Applicant agrees to give his documents in exchange for Pass to the exams");
@@ -45,7 +45,7 @@ public class Pass {
         }
     }
 
-    public static void take() {
+    public static void takeFromAnApplicant() {
         System.out.println("Admission Office:\nYou handed over the Applicant's pass");
     }
 
@@ -58,7 +58,6 @@ public class Pass {
     }
 
     public static void show() {
-
         System.out.println(" " + (center("", 25, '_') + " "));
         System.out.println("|" + (center("P A S S", 25, ' ') + "|"));
         System.out.println("|" + (center(applicant.getFirstLastName(), 25, ' ') + "|"));

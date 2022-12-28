@@ -23,33 +23,33 @@ public class AdmissionsOffice {
         for (Faculty categories : Faculty.values()) {
             System.out.println(categories);
         }
-        System.out.println("\nWrite what specialty you want to study: ");
+        System.out.println("\nHere you can see the Specialities of the University: ");
         LOG.info("The list of Specialities is displayed");
-        List<Speciality> specialities = new ArrayList<>(Arrays.asList(Speciality.values()));
         for (Speciality type : Speciality.values()) {
             System.out.println(type);
         }
+        System.out.println("\nWrite what specialty you want to study:\n1 - CONCERT_PERFORMER,\n2 - VOCAL_SINGER,\n3 - MUSICAL_DIRECTOR,\n4 - CHOREOGRAPHER\n");
         Scanner input = new Scanner(System.in);
-        applicant.setSpeciality(input.next().toUpperCase());
-        try {
-            for (int i = 0; i <= specialities.size(); ) {
-                if (!(applicant.getSpeciality().equals(specialities.get(i).name()))) {
-                    i++;
-                } else break;
+        switch (input.next()) {
+            case "1" -> applicant.setSpeciality("CONCERT_PERFORMER");
+            case "2" -> applicant.setSpeciality("VOCAL_SINGER");
+            case "3" -> applicant.setSpeciality("MUSICAL_DIRECTOR");
+            case "4" -> applicant.setSpeciality("CHOREOGRAPHER");
+            default -> {
+                LOG.info("Exception: You entered an invalid value. Make a choice of Specialty and Faculty again");
+                System.out.println("Exception: You entered an invalid value. Please review the list of Faculties again and choose your Specialty");
+                chooseSpeciality();
             }
-        } catch (Exception e) {
-            LOG.info("Exception: You entered an invalid value. Make a choice of Specialty and Faculty again");
-            System.out.println("Exception: You entered an invalid value. Please review the list of Faculties again and choose your Specialty");
-            chooseSpeciality();
         }
-        for (Speciality type : Speciality.values())
+        for (Speciality type : Speciality.values()) {
             if (applicant.getSpeciality().equals(type.name())) {
                 applicant.setFaculty(String.valueOf(type.getCategory()));
                 LOG.info("Data on the chosen Faculty and Specialty are confirmed. List of exams issued");
                 System.out.printf("Ok. Your faculty is %s. Your have to pass the exams: %s.\n", applicant.getFaculty(), type.getExams());
-                applicant.changeActivity(activity, new Registration());
-                applicant.save();
+                applicant.changeActivity(new Registration());
+                applicant.saveState();
             }
+        }
     }
 
     public static void registration() throws Exception {
@@ -125,29 +125,15 @@ public class AdmissionsOffice {
                             break;
                         }
                     }
-                    applicants.add(new Applicant((short) 1, "Mary", "Peterson", "22.10.2000", "INSTRUMENT", "concert_performer", new ArrayList<>(List.of(56, 44, 95)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 2, "Barbara", "Scott", "14.03.2002", "VOCAL", "vocal_singer", new ArrayList<>(List.of(66, 40, 39)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 3, "Andre", "Roberts", "22.10.2003", "THEATRE", "musical_director", new ArrayList<>(List.of(79, 64, 38)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 4, "John", "Hampton", "05.11.2000", "VOCAL", "vocal_singer", new ArrayList<>(List.of(46, 83, 58)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 5, "Erin", "Jones", "23.07.2001", "CHOREOGRAPHY", "choreographer", new ArrayList<>(List.of(52, 57, 45)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 6, "Mildred", "Blake", "18.09.2002", "CHOREOGRAPHY", "choreographer", new ArrayList<>(List.of(94, 89, 86)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 7, "Amanda", "Patrick", "02.05.2000", "INSTRUMENT", "concert_performer", new ArrayList<>(List.of(79, 87, 100)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 8, "Margaret", "Williams", "31.12.1999", "instrument", "concert_performer", new ArrayList<>(List.of(31, 44, 68)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 9, "Debra", "Roberts", "27.03.2003", "INSTRUMENT", "concert_performer", new ArrayList<>(List.of(100, 88, 95)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 10, "Julie", "Hines", "09.11.2001", "VOCAL", "vocal_singer", new ArrayList<>(List.of(56, 44, 95)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 11, "Chad", "Crawford", "10.02.2002", "THEATRE", "musical_director", new ArrayList<>(List.of(83, 40, 64)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 12, "Rhonda", "Henderson", "26.07.2002", "INSTRUMENT", "concert_performer", new ArrayList<>(List.of(77, 53, 80)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 13, "George", "Phillips", "13.03.2001", "VOCAL", "vocal_singer", new ArrayList<>(List.of(83, 90, 75)), applicant.getSum()));
-                    applicants.add(new Applicant((short) 14, "Ruth", "White", "20.01.2000", "CHOREOGRAPHY", "choreographer", new ArrayList<>(List.of(85, 60, 58)), applicant.getSum()));
                     applicants.add(applicant);
                     LOG.info("The Applicant is registered in the general list of applicants");
                     System.out.println("Congratulations! You have registered and are on the List of Applicants \nLIST OF APPLICANTS:\n");
                     for (Applicant value : applicants) {
                         System.out.println(value);
                     }
-                    Pass.give();
-                    applicant.changeActivity(activity, new PassExams());
-                    applicant.save();
+                    Pass.giveToApplicant();
+                    applicant.changeActivity(new PassExams());
+                    applicant.saveState();
                 }
             }
         }
@@ -155,7 +141,7 @@ public class AdmissionsOffice {
 
     public static void returnOfDocuments() throws IOException, ClassNotFoundException {
         SaveLoadFiles.load("Lesson2/src/main/resources/state.bin");
-        Pass.take();
+        Pass.takeFromAnApplicant();
         System.out.println("Your documents have been returned. We are saying Good Bye");
     }
 }

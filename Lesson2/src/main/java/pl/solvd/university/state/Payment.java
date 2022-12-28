@@ -9,7 +9,7 @@ import static pl.solvd.university.Main.applicant;
 
 public class Payment implements Activity, Serializable {
     @Override
-    public void save() throws IOException {
+    public void saveState() throws IOException {
         writeStringToFile(state, "\nI'M GOING TO PAY", StandardCharsets.UTF_8, true);
         SaveLoadFiles.save(applicant, "Lesson2/src/main/resources/state.bin");
     }

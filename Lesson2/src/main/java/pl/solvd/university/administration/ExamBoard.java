@@ -2,7 +2,6 @@ package pl.solvd.university.administration;
 
 import pl.solvd.university.departments.Faculty;
 import pl.solvd.university.documents.ExamSheet;
-import pl.solvd.university.people.Professor;
 import pl.solvd.university.state.ReturnDocuments;
 import pl.solvd.university.state.SaveLoadFiles;
 
@@ -45,8 +44,8 @@ public class ExamBoard {
                     System.out.println(result);
                     if (grades.stream().anyMatch(grade -> grade < MIN_PASS_SCORE)) {
                         LOG.info("The Applicant goes to return his documents");
-                        applicant.changeActivity(activity, new ReturnDocuments());
-                        applicant.save();
+                        applicant.changeActivity(new ReturnDocuments());
+                        applicant.saveState();
                         AdmissionsOffice.returnOfDocuments();
                     }
                 }

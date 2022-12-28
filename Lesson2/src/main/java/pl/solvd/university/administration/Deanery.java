@@ -20,7 +20,7 @@ public class Deanery implements Comparator<Applicant> {
             return o2.getSum() - o1.getSum();
     }
 
-    public static void sortByGrades(List<Applicant> sortedList, int NumOfBudgetPlaces, int NumOfPaidPlaces, String getSpecialty) throws Exception {
+    public static void sortApplicantsByGradesAndPlaces(List<Applicant> sortedList, int NumOfBudgetPlaces, int NumOfPaidPlaces, String getSpecialty) throws Exception {
         System.out.println("Do you want to see the rating of Applicants for your Specialty? (yes/no)");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
@@ -30,13 +30,13 @@ public class Deanery implements Comparator<Applicant> {
             } catch (IOException e) {
                 LOG.error("Exception: Invalid input. The program is closed");
                 System.out.println(e.getMessage());
-                sortByGrades(sortedList, NumOfBudgetPlaces, NumOfPaidPlaces, getSpecialty);
+                sortApplicantsByGradesAndPlaces(sortedList, NumOfBudgetPlaces, NumOfPaidPlaces, getSpecialty);
             }
         } else {
             switch (answer) {
                 case "NO" -> {
                     LOG.info("Well, the Applicant is not ready to see the rating of applicants. You can see this list later");
-                    sortByGrades(sortedList, NumOfBudgetPlaces, NumOfPaidPlaces, getSpecialty);
+                    sortApplicantsByGradesAndPlaces(sortedList, NumOfBudgetPlaces, NumOfPaidPlaces, getSpecialty);
                 }
                 case "YES" -> {
                     LOG.info("Applicant wants to see the results. Results sorted in descending order");
@@ -59,16 +59,16 @@ public class Deanery implements Comparator<Applicant> {
                             } else if (isEnteredThePaidPlace) {
                                 System.out.println("\nGreat! You are enrolled in Paid education at the University!\nGo to the Accounting department to conclude a payment agreement.\n");
                                 LOG.info("The list of Applicants recommended for enrollment is sent to the Dean of the faculty for approval");
-                                Accounting.agreement(Accounting.Bill.EDUCATION);
+                                Accounting.agreement();
                             } else {
                                 System.out.println("\nUnfortunately, you are not enrolled in the University");
                                 LOG.info("Applicant goes to return his documents");
-                                applicant.changeActivity(activity, new ReturnDocuments());
-                                applicant.save();
+                                applicant.changeActivity(new ReturnDocuments());
+                                applicant.saveState();
                                 AdmissionsOffice.returnOfDocuments();
                                 break;
                             }
-                            applicant.save();
+                            applicant.saveState();
                             Student.getFirstCourse(sortedApplicantsCopy.subList(0, sum));
                             System.out.println("We are glad to see you in the list of first-year students!");
                         }

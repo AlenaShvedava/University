@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -36,19 +37,15 @@ public class Main {
         System.out.println("\nWELCOME TO THE UNIVERSITY OF ARTS!\nPlease read the procedure for conducting entrance examinations at the University\n");
         LOG.info("First of all, the Applicant should read about the procedure for conducting entrance examinations at the University");
         applicant.setActivity(new ReadRules());
-        applicant.save();
+        applicant.saveState();
         readUniversityRules();
         System.out.println("\nConfirm that you have read the rules (yes/no)");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
         if ((!(answer.toUpperCase(Locale.ROOT).equals("YES")) && (!(answer.toUpperCase(Locale.ROOT).equals("NO"))))) {
-            try {
-                throw new IOException("Exception: You entered an invalid value. Return to the beginning");
-            } catch (IOException e) {
-                LOG.error("Exception: Something went wrong. Incorrect keyboard input. Return to the beginning");
-                System.out.println(e.getMessage());
-                main(null);
-            }
+            System.out.println("Exception: You entered an invalid value. Return to the beginning");
+            LOG.error("Exception: Something went wrong. Incorrect keyboard input. Return to the beginning");
+            main(null);
         } else {
             switch (answer) {
                 case "NO" -> {
@@ -57,8 +54,8 @@ public class Main {
                 }
                 case "YES" -> {
                     LOG.info("The Applicant received information about the stages of admission to the University");
-                    applicant.changeActivity(activity, new ChoosingSpeciality());
-                    applicant.save();
+                    applicant.changeActivity(new ChoosingSpeciality());
+                    applicant.saveState();
                     AdmissionsOffice.chooseSpeciality();
                     Professor professor1 = new Professor("Mario", "Hill");
                     Professor professor3 = new Professor("Jon", "King");
@@ -74,6 +71,20 @@ public class Main {
                     VOCAL.setDean((Dean) professor2);
                     THEATRE.setDean((Dean) professor6);
                     CHOREOGRAPHY.setDean((Dean) professor3);
+                    applicants.add(new Applicant((short) 1, "Mary", "Peterson", "22.10.2000", "INSTRUMENT", "concert_performer", new ArrayList<>(List.of(56, 44, 95)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 2, "Barbara", "Scott", "14.03.2002", "VOCAL", "vocal_singer", new ArrayList<>(List.of(66, 40, 39)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 3, "Andre", "Roberts", "22.10.2003", "THEATRE", "musical_director", new ArrayList<>(List.of(79, 64, 38)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 4, "John", "Hampton", "05.11.2000", "VOCAL", "vocal_singer", new ArrayList<>(List.of(46, 83, 58)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 5, "Erin", "Jones", "23.07.2001", "CHOREOGRAPHY", "choreographer", new ArrayList<>(List.of(52, 57, 45)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 6, "Mildred", "Blake", "18.09.2002", "CHOREOGRAPHY", "choreographer", new ArrayList<>(List.of(94, 89, 86)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 7, "Amanda", "Patrick", "02.05.2000", "INSTRUMENT", "concert_performer", new ArrayList<>(List.of(79, 87, 100)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 8, "Margaret", "Williams", "31.12.1999", "instrument", "concert_performer", new ArrayList<>(List.of(31, 44, 68)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 9, "Debra", "Roberts", "27.03.2003", "INSTRUMENT", "concert_performer", new ArrayList<>(List.of(100, 88, 95)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 10, "Julie", "Hines", "09.11.2001", "VOCAL", "vocal_singer", new ArrayList<>(List.of(56, 44, 95)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 11, "Chad", "Crawford", "10.02.2002", "THEATRE", "musical_director", new ArrayList<>(List.of(83, 40, 64)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 12, "Rhonda", "Henderson", "26.07.2002", "INSTRUMENT", "concert_performer", new ArrayList<>(List.of(77, 53, 80)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 13, "George", "Phillips", "13.03.2001", "VOCAL", "vocal_singer", new ArrayList<>(List.of(83, 90, 75)), applicant.getSum()));
+                    applicants.add(new Applicant((short) 14, "Ruth", "White", "20.01.2000", "CHOREOGRAPHY", "choreographer", new ArrayList<>(List.of(85, 60, 58)), applicant.getSum()));
                     AdmissionsOffice.registration();
                     LOG.info("Applicant preparing to take exams");
                     SaveLoadFiles.load("Lesson2/src/main/resources/state.bin");
@@ -82,7 +93,7 @@ public class Main {
                     ExamBoard.passExam();
                     if (!(grades.get(0) < MIN_PASS_SCORE || grades.get(1) < MIN_PASS_SCORE || grades.get(2) < MIN_PASS_SCORE)) {
                         LOG.info("The list of applicants is transferred to the Deanery");
-                        Deanery.sortByGrades(sortedList, Speciality.valueOf(applicant.getSpeciality()).getNumOfBudgetPlaces(), Speciality.valueOf(applicant.getSpeciality()).getNumOfPaidPlaces(), applicant.getSpeciality());
+                        Deanery.sortApplicantsByGradesAndPlaces(sortedList, Speciality.valueOf(applicant.getSpeciality()).getNumOfBudgetPlaces(), Speciality.valueOf(applicant.getSpeciality()).getNumOfPaidPlaces(), applicant.getSpeciality());
                         LOG.info("Admission tests completed");
                     }
                 }

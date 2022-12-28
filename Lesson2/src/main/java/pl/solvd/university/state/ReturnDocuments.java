@@ -9,8 +9,8 @@ import static pl.solvd.university.Main.applicant;
 
 public class ReturnDocuments implements Activity, Serializable {
     @Override
-    public void save() throws IOException {
-        writeStringToFile(state, "\nI'M GOING TO RETURN MY DOCUMENTS\n", StandardCharsets.UTF_8,true);
+    public void saveState() throws IOException {
+        writeStringToFile(state, "\nI'M GOING TO RETURN MY DOCUMENTS\n", StandardCharsets.UTF_8, true);
         SaveLoadFiles.save(applicant, "Lesson2/src/main/resources/state.bin");
     }
 }

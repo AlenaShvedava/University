@@ -13,7 +13,6 @@ public enum Speciality {
     final int numOfBudgetPlaces;
     final int numOfPaidPlaces;
     final String exams;
-    public Dean dean;
 
     Speciality(Faculty category, int numOfBudgetPlaces, int numOfPaidPlaces, String exams) {
         this.category = category;

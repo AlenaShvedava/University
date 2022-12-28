@@ -13,8 +13,8 @@ public class ExamSheet {
 
     public static ArrayList<Integer> getGrades() throws IOException {
         LOG.info("Exam grades from ExamSheet #2326 were received");
-        applicant.changeActivity(activity, new SeeResults());
-        applicant.save();
+        applicant.changeActivity(new SeeResults());
+        applicant.saveState();
         return grades;
     }
 
