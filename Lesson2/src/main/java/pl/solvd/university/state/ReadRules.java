@@ -9,8 +9,8 @@ import static pl.solvd.university.Main.applicant;
 
 public class ReadRules implements Activity, Serializable {
     @Override
-    public void saveState() throws IOException {
+    public void saveActivityInfo() throws IOException {
         writeStringToFile(state, "I READ THE RULES FOR VISITING THE UNIVERSITY\n", StandardCharsets.UTF_8, true);
-        SaveLoadFiles.save(applicant, "Lesson2/src/main/resources/state.bin");
+        SaveLoadFiles.saveApplicantToFile(applicant, "Lesson2/src/main/resources/state.bin");
     }
 }

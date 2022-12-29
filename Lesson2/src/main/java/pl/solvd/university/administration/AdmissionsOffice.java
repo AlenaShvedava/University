@@ -17,7 +17,7 @@ public class AdmissionsOffice {
     public static List<Applicant> applicants = new ArrayList<>();
 
     public static void chooseSpeciality() throws IOException, ClassNotFoundException {
-        SaveLoadFiles.load("Lesson2/src/main/resources/state.bin");
+        SaveLoadFiles.showInformationFromFile("Lesson2/src/main/resources/state.bin");
         System.out.println("\nHere you can see the Faculties of the University: ");
         LOG.info("The list of Faculties is displayed");
         for (Faculty categories : Faculty.values()) {
@@ -28,7 +28,7 @@ public class AdmissionsOffice {
         for (Speciality type : Speciality.values()) {
             System.out.println(type);
         }
-        System.out.println("\nWrite what specialty you want to study:\n1 - CONCERT_PERFORMER,\n2 - VOCAL_SINGER,\n3 - MUSICAL_DIRECTOR,\n4 - CHOREOGRAPHER\n");
+        System.out.println("\nWrite what specialty you want to study (1,2,3,4):\n");
         Scanner input = new Scanner(System.in);
         switch (input.next()) {
             case "1" -> applicant.setSpeciality("CONCERT_PERFORMER");
@@ -46,14 +46,14 @@ public class AdmissionsOffice {
                 applicant.setFaculty(String.valueOf(type.getCategory()));
                 LOG.info("Data on the chosen Faculty and Specialty are confirmed. List of exams issued");
                 System.out.printf("Ok. Your faculty is %s. Your have to pass the exams: %s.\n", applicant.getFaculty(), type.getExams());
-                applicant.changeActivity(new Registration());
-                applicant.saveState();
+                applicant.setActivity(new Registration());
+                applicant.saveActivityAndApplicantToStateFiles();
             }
         }
     }
 
     public static void registration() throws Exception {
-        SaveLoadFiles.load("Lesson2/src/main/resources/state.bin");
+        SaveLoadFiles.showInformationFromFile("Lesson2/src/main/resources/state.bin");
         LOG.info("Requested confirmation of further registration of the Applicant in the chosen Specialty");
         System.out.printf("Apply to faculty: %s, speciality: %s? (yes/no) \n", applicant.getFaculty(), applicant.getSpeciality());
         Scanner faculty = new Scanner(System.in);
@@ -78,9 +78,9 @@ public class AdmissionsOffice {
                     System.out.println("Enter your First name \n");
                     Scanner scan = new Scanner(System.in);
                     String name = scan.next();
-                    if (name.matches("[a-zA-Z]+")) {
+                    if (name.matches("[a-zA-Z]+"))
                         applicant.setFirstName(name);
-                    } else
+                    else
                         try {
                             throw new IOException("Exception: Only letters can be entered in this field. Please, try to register again");
                         } catch (IOException e) {
@@ -91,9 +91,9 @@ public class AdmissionsOffice {
                         }
                     System.out.println("Enter your Last name \n");
                     String surname = scan.next();
-                    if (surname.matches("[a-zA-Z]+")) {
+                    if (surname.matches("[a-zA-Z]+"))
                         applicant.setLastName(surname);
-                    } else
+                    else
                         try {
                             throw new IOException("Exception: Only letters can be entered in this field. Please, try to register again");
                         } catch (IOException e) {
@@ -131,17 +131,17 @@ public class AdmissionsOffice {
                     for (Applicant value : applicants) {
                         System.out.println(value);
                     }
-                    Pass.giveToApplicant();
-                    applicant.changeActivity(new PassExams());
-                    applicant.saveState();
+                    Pass.givePassToApplicant();
+                    applicant.setActivity(new PassExams());
+                    applicant.saveActivityAndApplicantToStateFiles();
                 }
             }
         }
     }
 
     public static void returnOfDocuments() throws IOException, ClassNotFoundException {
-        SaveLoadFiles.load("Lesson2/src/main/resources/state.bin");
-        Pass.takeFromAnApplicant();
+        SaveLoadFiles.showInformationFromFile("Lesson2/src/main/resources/state.bin");
+        Pass.takePassFromAnApplicant();
         System.out.println("Your documents have been returned. We are saying Good Bye");
     }
 }

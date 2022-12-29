@@ -112,20 +112,12 @@ public class Applicant implements Serializable {
         return isIdEquals && isNameEquals && isDateOfBirthEquals && isFacultyEquals && isSpecialityEquals && isMyPassEquals;
     }
 
-    public Activity getActivity() {
-        return activity;
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(id, firstLastName, dateOfBirth, faculty, speciality, myPass);
     }
 
-    public void changeActivity(Activity after) {
-        setActivity(after);
-    }
-
-    public void saveState() throws IOException {
-        activity.saveState();
+    public void saveActivityAndApplicantToStateFiles() throws IOException {
+        activity.saveActivityInfo();
     }
 }

@@ -36,7 +36,7 @@ public class Accounting {
                 LOG.error("Exception: Something went wrong. Invalid input. Try to pay again");
                 System.out.println(e.getMessage());
                 exceptPayment();
-                applicant.saveState();
+                applicant.saveActivityAndApplicantToStateFiles();
             }
         } else {
             switch (chooseDone.toUpperCase(Locale.ROOT)) {
@@ -62,25 +62,22 @@ public class Accounting {
                 case "NO" -> {
                     LOG.info("Refused. Applicant goes to return his documents");
                     System.out.println("Ok. You have decided not to study on a Paid basis\nGo to the Admissions Office to return the documents\n");
-                    applicant.changeActivity(new ReturnDocuments());
-                    applicant.saveState();
+                    applicant.setActivity(new ReturnDocuments());
+                    applicant.saveActivityAndApplicantToStateFiles();
                     AdmissionsOffice.returnOfDocuments();
                 }
                 case "YES" -> {
                     LOG.info("The Applicant agrees to sign a contract for Paid education");
                     show();
                     System.out.println("Ok. The contract for Paid training has been signed\n");
-                    applicant.changeActivity(new Payment());
+                    applicant.setActivity(new Payment());
                     exceptPayment();
                 }
                 default -> {
-                    try {
-                        throw new IOException("Exception: Something went wrong. You entered an invalid value. Let's try again");
-                    } catch (IOException e) {
-                        LOG.error("Exception: Invalid input");
-                        System.out.println(e.getMessage());
-                        agreement();
-                    }
+                    LOG.error("Exception: Invalid input");
+                    System.out.println("Exception: Something went wrong. You entered an invalid value. Let's try again");
+                    agreement();
+
                 }
             }
         }

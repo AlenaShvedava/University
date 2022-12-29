@@ -15,7 +15,7 @@ public class Student extends Applicant {
     }
 
     public static void getFirstCourse(List<Applicant> approvalList) throws IOException, ClassNotFoundException {
-        SaveLoadFiles.load("Lesson2/src/main/resources/state.bin");
+        SaveLoadFiles.showInformationFromFile("Lesson2/src/main/resources/state.bin");
         LOG.info("Enrolled Applicants are included in the list of 1st year Students");
         List<Applicant> firstCourse = Faculty.valueOf(applicant.getFaculty()).getDean().approve(approvalList);
         System.out.println("FOR ENROLLMENT:\n");

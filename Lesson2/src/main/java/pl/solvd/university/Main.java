@@ -37,7 +37,7 @@ public class Main {
         System.out.println("\nWELCOME TO THE UNIVERSITY OF ARTS!\nPlease read the procedure for conducting entrance examinations at the University\n");
         LOG.info("First of all, the Applicant should read about the procedure for conducting entrance examinations at the University");
         applicant.setActivity(new ReadRules());
-        applicant.saveState();
+        applicant.saveActivityAndApplicantToStateFiles();
         readUniversityRules();
         System.out.println("\nConfirm that you have read the rules (yes/no)");
         Scanner scanner = new Scanner(System.in);
@@ -54,8 +54,8 @@ public class Main {
                 }
                 case "YES" -> {
                     LOG.info("The Applicant received information about the stages of admission to the University");
-                    applicant.changeActivity(new ChoosingSpeciality());
-                    applicant.saveState();
+                    applicant.setActivity(new ChoosingSpeciality());
+                    applicant.saveActivityAndApplicantToStateFiles();
                     AdmissionsOffice.chooseSpeciality();
                     Professor professor1 = new Professor("Mario", "Hill");
                     Professor professor3 = new Professor("Jon", "King");
@@ -87,7 +87,7 @@ public class Main {
                     applicants.add(new Applicant((short) 14, "Ruth", "White", "20.01.2000", "CHOREOGRAPHY", "choreographer", new ArrayList<>(List.of(85, 60, 58)), applicant.getSum()));
                     AdmissionsOffice.registration();
                     LOG.info("Applicant preparing to take exams");
-                    SaveLoadFiles.load("Lesson2/src/main/resources/state.bin");
+                    SaveLoadFiles.showInformationFromFile("Lesson2/src/main/resources/state.bin");
                     List<Applicant> sortedList = applicants.stream().filter(e -> e.getSpeciality().equalsIgnoreCase(applicant.getSpeciality())).toList();
                     Professor.consult();
                     ExamBoard.passExam();

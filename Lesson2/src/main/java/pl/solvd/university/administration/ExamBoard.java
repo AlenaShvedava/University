@@ -37,15 +37,15 @@ public class ExamBoard {
                 case "YES" -> {
                     LOG.info("Applicant ready to take exams");
                     ExamSheet.getGrades();
-                    SaveLoadFiles.load("Lesson2/src/main/resources/state.bin");
+                    SaveLoadFiles.showInformationFromFile("Lesson2/src/main/resources/state.bin");
                     ExamSheet.scoreCard();
                     LOG.info("Examination grades are checked for a passing score");
                     String result = grades.stream().anyMatch(grade -> grade < MIN_PASS_SCORE) ? "Exam Board:\nUnfortunately, you did not pass the exam and did not enter the University." : "Exam Board:\nCongratulations! You have passed all the exams.";
                     System.out.println(result);
                     if (grades.stream().anyMatch(grade -> grade < MIN_PASS_SCORE)) {
                         LOG.info("The Applicant goes to return his documents");
-                        applicant.changeActivity(new ReturnDocuments());
-                        applicant.saveState();
+                        applicant.setActivity(new ReturnDocuments());
+                        applicant.saveActivityAndApplicantToStateFiles();
                         AdmissionsOffice.returnOfDocuments();
                     }
                 }

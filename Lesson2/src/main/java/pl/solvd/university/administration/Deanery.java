@@ -16,8 +16,9 @@ public class Deanery implements Comparator<Applicant> {
     public int compare(Applicant o1, Applicant o2) {
         if (o2.getSum() == o1.getSum()) {
             return o2.getFirstLastName().compareTo(o1.getFirstLastName());
-        } else
+        } else {
             return o2.getSum() - o1.getSum();
+        }
     }
 
     public static void sortApplicantsByGradesAndPlaces(List<Applicant> sortedList, int NumOfBudgetPlaces, int NumOfPaidPlaces, String getSpecialty) throws Exception {
@@ -63,12 +64,12 @@ public class Deanery implements Comparator<Applicant> {
                             } else {
                                 System.out.println("\nUnfortunately, you are not enrolled in the University");
                                 LOG.info("Applicant goes to return his documents");
-                                applicant.changeActivity(new ReturnDocuments());
-                                applicant.saveState();
+                                applicant.setActivity(new ReturnDocuments());
+                                applicant.saveActivityAndApplicantToStateFiles();
                                 AdmissionsOffice.returnOfDocuments();
                                 break;
                             }
-                            applicant.saveState();
+                            applicant.saveActivityAndApplicantToStateFiles();
                             Student.getFirstCourse(sortedApplicantsCopy.subList(0, sum));
                             System.out.println("We are glad to see you in the list of first-year students!");
                         }

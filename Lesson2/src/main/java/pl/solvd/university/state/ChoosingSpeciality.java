@@ -9,8 +9,8 @@ import static pl.solvd.university.Main.applicant;
 
 public class ChoosingSpeciality implements Activity, Serializable {
     @Override
-    public void saveState() throws IOException {
+    public void saveActivityInfo() throws IOException {
         writeStringToFile(state, "I'M GOING TO CHOOSE A SPECIALITY", StandardCharsets.UTF_8, true);
-        SaveLoadFiles.save(applicant, "Lesson2/src/main/resources/state.bin");
+        SaveLoadFiles.saveApplicantToFile(applicant, "Lesson2/src/main/resources/state.bin");
     }
 }

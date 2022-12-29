@@ -6,5 +6,5 @@ import java.io.IOException;
 public interface Activity {
     File state = new File("Lesson2/src/main/resources/state.txt");
 
-    void saveState() throws IOException;
+    void saveActivityInfo() throws IOException;
 }

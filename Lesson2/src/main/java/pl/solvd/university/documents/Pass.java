@@ -15,7 +15,7 @@ public class Pass {
         this.name = name;
     }
 
-    public static void giveToApplicant() {
+    public static void givePassToApplicant() {
         Pass myPass = new Pass(applicant.getFirstLastName());
         LOG.info("\nApplicant is issued a pass");
         System.out.println("\nAdmission Office:\nSIGN THE CONTRACT:\nYou are going to leave your documents with us.\nIn return, you will be issued an Applicant Pass.\nSign that the documents have been exchanged (yes/no)\n");
@@ -27,14 +27,14 @@ public class Pass {
             } catch (IOException e) {
                 LOG.error("Exception: Invalid input. Something went wrong. Let's try again");
                 System.out.println(e.getMessage());
-                giveToApplicant();
+                givePassToApplicant();
             }
         } else {
             switch (answer) {
                 case "NO" -> {
                     LOG.info("The Applicant does not want to give his documents. To pass the exams, you must leave your documents at the Admissions Office");
                     System.out.println("Signature required");
-                    giveToApplicant();
+                    givePassToApplicant();
                 }
                 case "YES" -> {
                     LOG.info("The Applicant agrees to give his documents in exchange for Pass to the exams");
@@ -45,7 +45,7 @@ public class Pass {
         }
     }
 
-    public static void takeFromAnApplicant() {
+    public static void takePassFromAnApplicant() {
         System.out.println("Admission Office:\nYou handed over the Applicant's pass");
     }
 
