@@ -1,45 +1,41 @@
 package pl.solvd.university.documents;
 
-import java.io.IOException;
-import java.util.Locale;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Scanner;
 
-import static pl.solvd.university.Main.LOG;
-import static pl.solvd.university.Main.applicant;
+import static pl.solvd.university.Main.*;
 
-public class Pass {
+public class Pass implements Serializable {
     private final String name;
 
     private Pass(String name) {
         this.name = name;
     }
 
-    public static void givePassToApplicant() {
-        Pass myPass = new Pass(applicant.getFirstLastName());
+    public static void givePassToApplicant(String ownerName) {
+        applicant.myPass = new Pass(ownerName);
         LOG.info("\nApplicant is issued a pass");
         System.out.println("\nAdmission Office:\nSIGN THE CONTRACT:\nYou are going to leave your documents with us.\nIn return, you will be issued an Applicant Pass.\nSign that the documents have been exchanged (yes/no)\n");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
-        if ((!(answer.toUpperCase(Locale.ROOT).equals("YES")) && (!(answer.toUpperCase(Locale.ROOT).equals("NO"))))) {
-            try {
-                throw new IOException("Exception: You entered an invalid value. Possible answers: yes/no. Let's try again");
-            } catch (IOException e) {
-                LOG.error("Exception: Invalid input. Something went wrong. Let's try again");
-                System.out.println(e.getMessage());
-                givePassToApplicant();
+        switch (answer) {
+            case "NO" -> {
+                LOG.info("The Applicant does not want to give his documents. To pass the exams, you must leave your documents at the Admissions Office");
+                System.out.println("Signature required");
+                givePassToApplicant(applicant.getFirstLastName());
             }
-        } else {
-            switch (answer) {
-                case "NO" -> {
-                    LOG.info("The Applicant does not want to give his documents. To pass the exams, you must leave your documents at the Admissions Office");
-                    System.out.println("Signature required");
-                    givePassToApplicant();
-                }
-                case "YES" -> {
-                    LOG.info("The Applicant agrees to give his documents in exchange for Pass to the exams");
-                    System.out.println("\nYou received an Applicant's pass");
-                    show();
+            case "YES" -> {
+                LOG.info("The Applicant agrees to give his documents in exchange for Pass to the exams");
+                System.out.println("\nYou received an Applicant's pass");
+                show(applicant.myPass);
+            }
+            default -> {
+                try {
+                    checkYesNoInput(answer);
+                } catch (Exception e) {
+                    System.out.println("Problem occurred: " + e);
+                    givePassToApplicant(applicant.getFirstLastName());
                 }
             }
         }
@@ -57,10 +53,10 @@ public class Pass {
         return sb.toString().replace('\0', pad);
     }
 
-    public static void show() {
+    public static void show(Pass myPass) {
         System.out.println(" " + (center("", 25, '_') + " "));
         System.out.println("|" + (center("P A S S", 25, ' ') + "|"));
-        System.out.println("|" + (center(applicant.getFirstLastName(), 25, ' ') + "|"));
+        System.out.println("|" + (center(myPass.name, 25, ' ') + "|"));
         System.out.println("|" + (center("", 25, '_') + "|"));
     }
 

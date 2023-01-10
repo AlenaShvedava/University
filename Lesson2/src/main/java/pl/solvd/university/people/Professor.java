@@ -8,8 +8,9 @@ public class Professor {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
     public static void consult() {
-        System.out.println("You attended consultations before exams");
+        System.out.println("+ You attended a pre-exam consultation");
     }
 
     @Override

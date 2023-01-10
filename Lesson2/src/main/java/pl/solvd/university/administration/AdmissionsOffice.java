@@ -25,8 +25,10 @@ public class AdmissionsOffice {
         }
         System.out.println("\nHere you can see the Specialities of the University: ");
         LOG.info("The list of Specialities is displayed");
+        int i = 1;
         for (Speciality type : Speciality.values()) {
-            System.out.println(type);
+            System.out.println((i) + ". " + type);
+            i++;
         }
         System.out.println("\nWrite what specialty you want to study (1,2,3,4):\n");
         Scanner input = new Scanner(System.in);
@@ -47,7 +49,7 @@ public class AdmissionsOffice {
                 LOG.info("Data on the chosen Faculty and Specialty are confirmed. List of exams issued");
                 System.out.printf("Ok. Your faculty is %s. Your have to pass the exams: %s.\n", applicant.getFaculty(), type.getExams());
                 applicant.setActivity(new Registration());
-                applicant.saveActivityAndApplicantToStateFiles();
+                applicant.saveActivityAndApplicantInfoToStateFiles();
             }
         }
     }
@@ -58,90 +60,76 @@ public class AdmissionsOffice {
         System.out.printf("Apply to faculty: %s, speciality: %s? (yes/no) \n", applicant.getFaculty(), applicant.getSpeciality());
         Scanner faculty = new Scanner(System.in);
         String chooseDone = faculty.next();
-        if ((!(chooseDone.toUpperCase(Locale.ROOT).equals("YES")) && (!(chooseDone.toUpperCase(Locale.ROOT).equals("NO"))))) {
-            try {
-                throw new IOException("Exception: You entered an invalid value. Please, confirm your choice");
-            } catch (IOException e) {
-                LOG.error("Exception: Something went wrong. Invalid input");
-                System.out.println(e.getMessage());
-                registration();
+        try {
+            checkYesNoInput(chooseDone);
+        } catch (Exception e) {
+            System.out.println("Problem occurred: " + e);
+            registration();
+        }
+        switch (chooseDone.toUpperCase(Locale.ROOT)) {
+            case "NO": {
+                LOG.info("Applicant chose the wrong specialty. Start over");
+                System.out.println("To choose another specialty, start over");
+                main(null);
             }
-        } else {
-            switch (chooseDone.toUpperCase(Locale.ROOT)) {
-                case "NO": {
-                    LOG.info("Applicant chose the wrong specialty. Start over");
-                    System.out.println("To choose another specialty, start over");
-                    main(null);
+            case "YES": {
+                LOG.info("Speciality is chosen. Request additional information about the Applicant for registration");
+                System.out.println("Enter your First name \n");
+                Scanner scan = new Scanner(System.in);
+                String name = scan.next();
+                try {
+                    checkLettersInput(name);
+                } catch (Exception e) {
+                    System.out.println("Problem occurred: " + e);
+                    registration();
+                    break;
                 }
-                case "YES": {
-                    LOG.info("Speciality is chosen. Request additional information about the Applicant for registration");
-                    System.out.println("Enter your First name \n");
-                    Scanner scan = new Scanner(System.in);
-                    String name = scan.next();
-                    if (name.matches("[a-zA-Z]+"))
-                        applicant.setFirstName(name);
-                    else
-                        try {
-                            throw new IOException("Exception: Only letters can be entered in this field. Please, try to register again");
-                        } catch (IOException e) {
-                            LOG.error("Exception: Invalid characters were entered for the field. Try to register again");
-                            System.out.println(e.getMessage());
-                            registration();
-                            break;
-                        }
-                    System.out.println("Enter your Last name \n");
-                    String surname = scan.next();
-                    if (surname.matches("[a-zA-Z]+"))
-                        applicant.setLastName(surname);
-                    else
-                        try {
-                            throw new IOException("Exception: Only letters can be entered in this field. Please, try to register again");
-                        } catch (IOException e) {
-                            LOG.error("Exception: Invalid characters were entered for the field. Try to register again");
-                            System.out.println(e.getMessage());
-                            registration();
-                            break;
-                        }
-                    System.out.println("Enter your date of birth\n");
-                    StringBuilder dateOfBirth = new StringBuilder();
-                    System.out.println("day(dd):");
-                    String day = scan.next();
-                    System.out.println("month(MM):");
-                    String month = scan.next();
-                    System.out.println("year(yyyy(1900/2000)):");
-                    String year = scan.next();
-                    if (day.matches("0?[1-9]|[12][0-9]|3[01]]") && month.matches("0?[1-9]|1[0-2]") && year.matches("(19|20)[0-9][0-9]")) {
-                        dateOfBirth.append(day).append(".");
-                        dateOfBirth.append(month).append(".");
-                        dateOfBirth.append(year);
-                        applicant.setDateOfBirth(String.valueOf(dateOfBirth));
-                    } else {
-                        try {
-                            throw new IOException("Exception: Invalid characters were entered for the field. Please, try to register again");
-                        } catch (IOException e) {
-                            LOG.error("Exception: Invalid characters were entered for the field. Try to register again");
-                            System.out.println(e.getMessage());
-                            registration();
-                            break;
-                        }
-                    }
-                    applicants.add(applicant);
-                    LOG.info("The Applicant is registered in the general list of applicants");
-                    System.out.println("Congratulations! You have registered and are on the List of Applicants \nLIST OF APPLICANTS:\n");
-                    for (Applicant value : applicants) {
-                        System.out.println(value);
-                    }
-                    Pass.givePassToApplicant();
-                    applicant.setActivity(new PassExams());
-                    applicant.saveActivityAndApplicantToStateFiles();
+                applicant.setFirstName(name);
+                System.out.println("Enter your Last name \n");
+                String surname = scan.next();
+                try {
+                    checkLettersInput(surname);
+                } catch (Exception e) {
+                    System.out.println("Problem occurred: " + e);
+                    registration();
+                    break;
                 }
+                applicant.setLastName(surname);
+                System.out.println("Enter your date of birth\n");
+                StringBuilder dateOfBirth = new StringBuilder();
+                System.out.println("day(dd):");
+                String day = scan.next();
+                System.out.println("month(MM):");
+                String month = scan.next();
+                System.out.println("year(yyyy(1900/2000)):");
+                String year = scan.next();
+                try {
+                    checkDateInput(day, month, year);
+                } catch (Exception e) {
+                    System.out.println("Problem occurred: " + e);
+                    registration();
+                    break;
+                }
+                dateOfBirth.append(day).append(".");
+                dateOfBirth.append(month).append(".");
+                dateOfBirth.append(year);
+                applicant.setDateOfBirth(String.valueOf(dateOfBirth));
             }
+            applicants.add(applicant);
+            LOG.info("The Applicant is registered in the general list of applicants");
+            System.out.println("Congratulations! You have registered and are on the List of Applicants \nLIST OF APPLICANTS:\n");
+            for (Applicant value : applicants) {
+                System.out.println(value);
+            }
+            Pass.givePassToApplicant(applicant.getFirstLastName());
+            applicant.setActivity(new PassExams());
+            applicant.saveActivityAndApplicantInfoToStateFiles();
         }
     }
 
     public static void returnOfDocuments() throws IOException, ClassNotFoundException {
         SaveLoadFiles.showInformationFromFile("Lesson2/src/main/resources/state.bin");
         Pass.takePassFromAnApplicant();
-        System.out.println("Your documents have been returned. We are saying Good Bye");
+        System.out.println("Your documents have been returned");
     }
 }

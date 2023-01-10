@@ -11,4 +11,4 @@ My project "University" describes the process of admission by an Applicant to th
 - How much will the Applicant's education cost in case of admission to the University
 
 The overall project plan is reflected in more detail in the diagram:
-![img.png](university_map.png)
+![img.png](University_map.png)

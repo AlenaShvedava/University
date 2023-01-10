@@ -14,7 +14,7 @@ public class Applicant implements Serializable {
     private String firstName, lastName, firstLastName, dateOfBirth, faculty, speciality;
     private ArrayList<Integer> values = new ArrayList<>(Arrays.asList(0, 0, 0));
     public static int sum;
-    Pass myPass;
+    public Pass myPass;
     Activity activity;
 
     public Applicant() {
@@ -65,7 +65,7 @@ public class Applicant implements Serializable {
     }
 
     public String getFirstLastName() {
-        return String.format("%s %s", this.firstName, this.lastName);
+        return firstLastName = String.format("%s %s", this.firstName, this.lastName);
     }
 
     public String getFaculty() {
@@ -88,9 +88,8 @@ public class Applicant implements Serializable {
         return getValues().stream().mapToInt(Integer::valueOf).sum();
     }
 
-    public ArrayList<Integer> setValues() {
+    public void setValues() {
         values = grades;
-        return values;
     }
 
     @Override
@@ -117,7 +116,7 @@ public class Applicant implements Serializable {
         return Objects.hash(id, firstLastName, dateOfBirth, faculty, speciality, myPass);
     }
 
-    public void saveActivityAndApplicantToStateFiles() throws IOException {
+    public void saveActivityAndApplicantInfoToStateFiles() throws IOException {
         activity.saveActivityInfo();
     }
 }

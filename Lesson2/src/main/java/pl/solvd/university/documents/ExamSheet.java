@@ -11,11 +11,10 @@ import static pl.solvd.university.Main.*;
 public class ExamSheet {
     public static ArrayList<Integer> grades = ExamBoard.rate();
 
-    public static ArrayList<Integer> getGrades() throws IOException {
+    public static void getGrades() throws IOException {
         LOG.info("Exam grades from ExamSheet #2326 were received");
         applicant.setActivity(new SeeResults());
-        applicant.saveActivityAndApplicantToStateFiles();
-        return grades;
+        applicant.saveActivityAndApplicantInfoToStateFiles();
     }
 
     public static void scoreCard() {
