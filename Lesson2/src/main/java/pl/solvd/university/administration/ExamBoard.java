@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import static pl.solvd.university.Main.*;
 import static pl.solvd.university.documents.ExamSheet.grades;
+import static pl.solvd.university.utils.Utils.checkYesNoInput;
 
 public class ExamBoard {
     public static final byte MIN_PASS_SCORE = 39;
@@ -19,6 +20,12 @@ public class ExamBoard {
         System.out.println("Are you ready to take your exams? (yes/no)");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
+        try {
+            checkYesNoInput(answer);
+        } catch (Exception e) {
+            System.out.println("Problem occurred: " + e);
+            passExam();
+        }
         switch (answer) {
             case "NO" -> {
                 LOG.info("The Applicant is not ready to take the exams. Let's breathe in and out and try again");
@@ -37,14 +44,6 @@ public class ExamBoard {
                     applicant.setActivity(new ReturnDocuments());
                     applicant.saveActivityAndApplicantInfoToStateFiles();
                     AdmissionsOffice.returnOfDocuments();
-                }
-            }
-            default -> {
-                try {
-                    checkYesNoInput(answer);
-                } catch (Exception e) {
-                    System.out.println("Problem occurred: " + e);
-                    passExam();
                 }
             }
         }

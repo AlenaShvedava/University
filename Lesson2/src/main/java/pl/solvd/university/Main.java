@@ -7,7 +7,6 @@ import pl.solvd.university.administration.AdmissionsOffice;
 import pl.solvd.university.administration.Deanery;
 import pl.solvd.university.administration.ExamBoard;
 import pl.solvd.university.departments.Speciality;
-import pl.solvd.university.exceptions.InputException;
 import pl.solvd.university.people.Applicant;
 import pl.solvd.university.people.Dean;
 import pl.solvd.university.people.Professor;
@@ -19,17 +18,16 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 import static pl.solvd.university.administration.AdmissionsOffice.applicants;
 import static pl.solvd.university.administration.ExamBoard.MIN_PASS_SCORE;
 import static pl.solvd.university.departments.Faculty.*;
 import static pl.solvd.university.documents.ExamSheet.grades;
+import static pl.solvd.university.utils.Utils.checkYesNoInput;
 
 public class Main {
     public static final Logger LOG = LogManager.getLogger(Main.class.getName());
-    public static Activity activity = new ReadRules();
     public static Applicant applicant;
 
     public static void main(String[] args) throws Exception {
@@ -43,6 +41,12 @@ public class Main {
         System.out.println("\nConfirm that you have read the rules (yes/no)");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
+        try {
+            checkYesNoInput(answer);
+        } catch (Exception e) {
+            System.out.println("Problem occurred: " + e);
+            main(null);
+        }
         switch (answer) {
             case "NO" -> {
                 LOG.info("The Applicant has not read the University Rules. Start from beginning and just read it");
@@ -94,14 +98,7 @@ public class Main {
                     LOG.info("Admission tests completed");
                 }
             }
-            default -> {
-                try {
-                    checkYesNoInput(answer);
-                } catch (Exception e) {
-                    System.out.println("Problem occurred: " + e);
-                    main(null);
-                }
-            }
+
         }
     }
 
@@ -113,27 +110,6 @@ public class Main {
         } catch (FileNotFoundException e) {
             LOG.error("FileNotFoundException");
             System.out.println("File not found" + e);
-        }
-    }
-
-    public static void checkYesNoInput(String text) throws InputException {
-        if ((!(text.toUpperCase(Locale.ROOT).equals("YES")) && (!(text.toUpperCase(Locale.ROOT).equals("NO"))))) {
-            LOG.error("Exception: Invalid characters were entered in the field");
-            throw new InputException("You can only enter \"Yes\" or \"No\"");
-        }
-    }
-
-    public static void checkLettersInput(String text) throws InputException {
-        if (!(text.matches("[a-zA-Z]+"))) {
-            LOG.error("Exception: Invalid characters were entered in the field");
-            throw new InputException("Your answer must contain only letters");
-        }
-    }
-
-    public static void checkDateInput(String day, String month, String year) throws InputException {
-        if (!(day.matches("0?[1-9]|[12][0-9]|3[01]]") && month.matches("0?[1-9]|1[0-2]") && (year.matches("(19)[6-9][0-9]|(20)0?[0-9]")))) {
-            LOG.error("Exception: Invalid characters were entered in the field");
-            throw new InputException("No such date. Date entered incorrectly");
         }
     }
 }

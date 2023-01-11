@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static pl.solvd.university.Main.*;
+import static pl.solvd.university.utils.Utils.*;
 
 public class AdmissionsOffice {
     public static List<Applicant> applicants = new ArrayList<>();

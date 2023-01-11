@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import static pl.solvd.university.Main.*;
+import static pl.solvd.university.utils.Utils.checkYesNoInput;
 
 public class Pass implements Serializable {
     private final String name;

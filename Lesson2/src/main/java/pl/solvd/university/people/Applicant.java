@@ -15,7 +15,7 @@ public class Applicant implements Serializable {
     private ArrayList<Integer> values = new ArrayList<>(Arrays.asList(0, 0, 0));
     public static int sum;
     public Pass myPass;
-    Activity activity;
+    private Activity activity;
 
     public Applicant() {
     }

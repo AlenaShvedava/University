@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import static pl.solvd.university.Main.*;
 import static pl.solvd.university.documents.Pass.show;
+import static pl.solvd.university.utils.Utils.checkYesNoInput;
 
 public class Accounting {
     public enum Bill {

@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 import static pl.solvd.university.Main.*;
+import static pl.solvd.university.utils.Utils.checkYesNoInput;
 
 public class Deanery implements Comparator<Applicant> {
 
@@ -24,6 +25,12 @@ public class Deanery implements Comparator<Applicant> {
         System.out.println("Do you want to see the rating of Applicants for your Specialty? (yes/no)");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
+        try {
+            checkYesNoInput(answer);
+        } catch (Exception e) {
+            System.out.println("Problem occurred: " + e);
+            summingUpTheResultsOfEntranceExaminations(sortedApplicantsBySpecialityList, NumOfBudgetPlaces, NumOfPaidPlaces, getSpecialty);
+        }
         switch (answer) {
             case "NO" -> {
                 LOG.info("Well, the Applicant is not ready to see the rating of applicants. You can see this list later");
@@ -33,7 +40,7 @@ public class Deanery implements Comparator<Applicant> {
                 LOG.info("Applicant wants to see the results. Results sorted in descending order");
                 Set<Applicant> sortedApplicantsByGradesList = new TreeSet<>(new Deanery());
                 sortedApplicantsByGradesList.addAll(sortedApplicantsBySpecialityList);
-                List<Applicant> sortedApplicantsByGradesCopy  = new ArrayList<>(sortedApplicantsByGradesList);
+                List<Applicant> sortedApplicantsByGradesCopy = new ArrayList<>(sortedApplicantsByGradesList);
                 System.out.println("\nRATING LIST:\n");
                 IntStream.range(0, sortedApplicantsByGradesCopy.size()).forEach(i -> System.out.println((i + 1) + ". " + sortedApplicantsByGradesCopy.get(i)));
                 int sum = NumOfBudgetPlaces + NumOfPaidPlaces;
@@ -63,14 +70,6 @@ public class Deanery implements Comparator<Applicant> {
                         Student.getFirstCourse(sortedApplicantsByGradesCopy.subList(0, sum));
                         System.out.println("\nEntrance examinations are completed.\nCongratulations to future 1st year students!");
                     }
-                }
-            }
-            default -> {
-                try {
-                    checkYesNoInput(answer);
-                } catch (Exception e) {
-                    System.out.println("Problem occurred: " + e);
-                    summingUpTheResultsOfEntranceExaminations(sortedApplicantsBySpecialityList, NumOfBudgetPlaces, NumOfPaidPlaces, getSpecialty);
                 }
             }
         }
