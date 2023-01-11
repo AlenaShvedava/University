@@ -30,7 +30,13 @@ public class Accounting {
         System.out.printf("Accounting:\nNEW BILL:\n%s payment is %d dollars\n", Bill.EDUCATION.name(), Bill.EDUCATION.getPrice());
         System.out.println("Ready to make a payment?");
         Scanner scanner = new Scanner(System.in);
-        String answer = scanner.next();
+        String answer = scanner.next().toUpperCase();
+        try {
+            checkYesNoInput(answer);
+        } catch (Exception e) {
+            System.out.println("Problem occurred: " + e);
+            exceptPayment();
+        }
         switch (answer.toUpperCase(Locale.ROOT)) {
             case "NO" -> {
                 LOG.info("Applicant refused to pay now");
@@ -40,14 +46,6 @@ public class Accounting {
                 LOG.info("Payment was successful");
                 System.out.println("Payment accepted");
             }
-            default -> {
-                try {
-                    checkYesNoInput(answer);
-                } catch (Exception e) {
-                    System.out.println("Problem occurred: " + e);
-                    exceptPayment();
-                }
-            }
         }
     }
 
@@ -55,7 +53,13 @@ public class Accounting {
         System.out.printf("Accounting:\n%s payment is %d dollars\n", Bill.EDUCATION.name(), Bill.EDUCATION.getPrice());
         System.out.print("If you decide to study on a paid basis, please,\n-submit your Pass and \n-sign a contract for Paid training\n(yes/no):\n");
         Scanner scan = new Scanner(System.in);
-        String chooseDone = scan.next();
+        String chooseDone = scan.next().toUpperCase();
+        try {
+            checkYesNoInput(chooseDone);
+        } catch (Exception e) {
+            System.out.println("Problem occurred: " + e);
+            agreement(sortedApplicantsCopy);
+        }
         switch (chooseDone.toUpperCase(Locale.ROOT)) {
             case "NO" -> {
                 LOG.info("Refused. Applicant goes to return his documents");
@@ -71,14 +75,6 @@ public class Accounting {
                 System.out.println("Ok. The contract for Paid training has been signed\n");
                 applicant.setActivity(new Payment());
                 exceptPayment();
-            }
-            default -> {
-                try {
-                    checkYesNoInput(chooseDone);
-                } catch (Exception e) {
-                    System.out.println("Problem occurred: " + e);
-                    agreement(sortedApplicantsCopy);
-                }
             }
         }
     }

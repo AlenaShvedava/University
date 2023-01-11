@@ -65,7 +65,7 @@ public class Applicant implements Serializable {
     }
 
     public String getFirstLastName() {
-        return firstLastName = String.format("%s %s", this.firstName, this.lastName);
+        return String.format("%s %s", this.firstName, this.lastName);
     }
 
     public String getFaculty() {

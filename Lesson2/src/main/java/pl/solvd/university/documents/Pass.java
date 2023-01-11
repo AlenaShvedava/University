@@ -20,6 +20,12 @@ public class Pass implements Serializable {
         System.out.println("\nAdmission Office:\nSIGN THE CONTRACT:\nYou are going to leave your documents with us.\nIn return, you will be issued an Applicant Pass.\nSign that the documents have been exchanged (yes/no)\n");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
+        try {
+            checkYesNoInput(answer);
+        } catch (Exception e) {
+            System.out.println("Problem occurred: " + e);
+            givePassToApplicant(applicant.getFirstLastName());
+        }
         switch (answer) {
             case "NO" -> {
                 LOG.info("The Applicant does not want to give his documents. To pass the exams, you must leave your documents at the Admissions Office");
@@ -30,14 +36,6 @@ public class Pass implements Serializable {
                 LOG.info("The Applicant agrees to give his documents in exchange for Pass to the exams");
                 System.out.println("\nYou received an Applicant's pass");
                 show(applicant.myPass);
-            }
-            default -> {
-                try {
-                    checkYesNoInput(answer);
-                } catch (Exception e) {
-                    System.out.println("Problem occurred: " + e);
-                    givePassToApplicant(applicant.getFirstLastName());
-                }
             }
         }
     }

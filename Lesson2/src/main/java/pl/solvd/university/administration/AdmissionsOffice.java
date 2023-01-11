@@ -60,7 +60,7 @@ public class AdmissionsOffice {
         LOG.info("Requested confirmation of further registration of the Applicant in the chosen Specialty");
         System.out.printf("Apply to faculty: %s, speciality: %s? (yes/no) \n", applicant.getFaculty(), applicant.getSpeciality());
         Scanner faculty = new Scanner(System.in);
-        String chooseDone = faculty.next();
+        String chooseDone = faculty.next().toUpperCase();
         try {
             checkYesNoInput(chooseDone);
         } catch (Exception e) {
