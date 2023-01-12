@@ -102,7 +102,7 @@ public class AdmissionsOffice {
                 String day = scan.next();
                 System.out.println("month(MM):");
                 String month = scan.next();
-                System.out.println("year(yyyy(1900/2000)):");
+                System.out.println("year(1960/2009): ");
                 String year = scan.next();
                 try {
                     checkDateInput(day, month, year);
