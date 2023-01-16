@@ -14,7 +14,7 @@ public class Dean extends Professor {
 
     public static <T> List<T> approve(List<T> approvalList) {
         List<T> approvedList = approvalList.stream().toList();
-        LOG.info("Dean signs documents");
+        LOG.info("Dean signs documents\n");
         System.out.printf("%s the Dean of %s faculty approved the list\n", Speciality.valueOf(applicant.getSpeciality()).getDean(), (applicant.getFaculty()));
         return approvedList;
     }

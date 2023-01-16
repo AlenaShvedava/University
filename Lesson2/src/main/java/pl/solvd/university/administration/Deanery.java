@@ -22,7 +22,7 @@ public class Deanery implements Comparator<Applicant> {
     }
 
     public static void summingUpTheResultsOfEntranceExaminations(List<Applicant> sortedApplicantsBySpecialityList, int NumOfBudgetPlaces, int NumOfPaidPlaces, String getSpecialty) throws Exception {
-        System.out.println("Do you want to see the rating of Applicants for your Specialty? (yes/no)");
+        System.out.println("\nDo you want to see the rating of Applicants for your Specialty? (yes/no)");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
         try {

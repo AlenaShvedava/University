@@ -3,10 +3,10 @@ package pl.solvd.university.departments;
 import pl.solvd.university.people.Dean;
 
 public enum Faculty {
-    INSTRUMENT(1),
-    VOCAL(2),
-    THEATRE(3),
-    CHOREOGRAPHY(4);
+    INSTRUMENT(3),
+    VOCAL(1),
+    THEATRE(4),
+    CHOREOGRAPHY(2);
 
     private Dean dean;
     private final int campus;

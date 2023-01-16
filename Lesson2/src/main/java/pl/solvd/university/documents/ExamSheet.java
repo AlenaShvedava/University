@@ -20,7 +20,7 @@ public class ExamSheet {
     public static void scoreCard() {
         applicant.setValues();
         applicant.getSum();
-        System.out.println("Your exam grades (0-100):");
-        System.out.println(grades.toString().replace("[", "").replace("]", "") + "\n");
+        System.out.println("\nYour exam grades (0-100):");
+        System.out.println(grades.toString().replace("[", "").replace("]", " ") + "\n");
     }
 }

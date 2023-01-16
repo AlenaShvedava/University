@@ -14,7 +14,7 @@ import static pl.solvd.university.utils.Utils.checkYesNoInput;
 
 public class Accounting {
     public enum Bill {
-        EDUCATION(2000);
+        EDUCATION(2130);
         private final int price;
 
         Bill(int price) {
@@ -44,7 +44,7 @@ public class Accounting {
             }
             case "YES" -> {
                 LOG.info("Payment was successful");
-                System.out.println("Payment accepted");
+                System.out.println("Payment accepted\n");
             }
         }
     }

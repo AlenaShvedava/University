@@ -10,7 +10,7 @@ public class Professor {
     }
 
     public static void consult() {
-        System.out.println("+ You attended a pre-exam consultation");
+        System.out.println("+ You attended a pre-exam consultation\n");
     }
 
     @Override
