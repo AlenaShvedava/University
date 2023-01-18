@@ -1,4 +1,4 @@
-**University**\
+[**University**](https://github.com/AlenaShvedava/SolvdLaba/tree/main/Lesson2)\
 My project "University" describes the process of admission by an Applicant to the University and answers the questions:
 - What faculties and specialties are there at the University
 - What specialty to choose
