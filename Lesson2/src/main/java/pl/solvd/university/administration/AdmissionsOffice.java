@@ -20,18 +20,18 @@ public class AdmissionsOffice {
     public static void chooseSpeciality() throws IOException, ClassNotFoundException {
         SaveLoadFiles.showInformationFromFile("Lesson2/src/main/resources/state.bin");
         System.out.println("\nHere you can see the Faculties of the University: ");
-        LOG.info("The list of Faculties is displayed");
+        LOG.info("The list of Faculties is displayed\n");
         for (Faculty categories : Faculty.values()) {
             System.out.println(categories);
         }
         System.out.println("\nHere you can see the Specialities of the University: ");
-        LOG.info("The list of Specialities is displayed");
+        LOG.info("The list of Specialities is displayed\n");
         int i = 1;
         for (Speciality type : Speciality.values()) {
             System.out.println((i) + ". " + type);
             i++;
         }
-        System.out.println("\nWrite what specialty you want to study (1,2,3,4):\n");
+        System.out.println("\nWrite what specialty you want to study (1,2,3,4):");
         Scanner input = new Scanner(System.in);
         switch (input.next()) {
             case "1" -> applicant.setSpeciality("CONCERT_PERFORMER");
@@ -47,7 +47,7 @@ public class AdmissionsOffice {
         for (Speciality type : Speciality.values()) {
             if (applicant.getSpeciality().equals(type.name())) {
                 applicant.setFaculty(String.valueOf(type.getCategory()));
-                LOG.info("Data on the chosen Faculty and Specialty are confirmed. List of exams issued");
+                LOG.info("Data on the chosen Faculty and Specialty are confirmed. List of exams issued\n");
                 System.out.printf("Ok. Your faculty is %s. Your have to pass the exams: %s.\n", applicant.getFaculty(), type.getExams());
                 applicant.setActivity(new Registration());
                 applicant.saveActivityAndApplicantInfoToStateFiles();
@@ -57,7 +57,7 @@ public class AdmissionsOffice {
 
     public static void registration() throws Exception {
         SaveLoadFiles.showInformationFromFile("Lesson2/src/main/resources/state.bin");
-        LOG.info("Requested confirmation of further registration of the Applicant in the chosen Specialty");
+        LOG.info("Requested confirmation of further registration of the Applicant in the chosen Specialty\n");
         System.out.printf("Apply to faculty: %s, speciality: %s? (yes/no) \n", applicant.getFaculty(), applicant.getSpeciality());
         Scanner faculty = new Scanner(System.in);
         String chooseDone = faculty.next().toUpperCase();
@@ -75,7 +75,7 @@ public class AdmissionsOffice {
             }
             case "YES": {
                 LOG.info("Speciality is chosen. Request additional information about the Applicant for registration");
-                System.out.println("Enter your First name \n");
+                System.out.println("Enter your First name");
                 Scanner scan = new Scanner(System.in);
                 String name = scan.next();
                 try {
@@ -86,7 +86,7 @@ public class AdmissionsOffice {
                     break;
                 }
                 applicant.setFirstName(name);
-                System.out.println("Enter your Last name \n");
+                System.out.println("Enter your Last name");
                 String surname = scan.next();
                 try {
                     checkLettersInput(surname);
@@ -96,7 +96,7 @@ public class AdmissionsOffice {
                     break;
                 }
                 applicant.setLastName(surname);
-                System.out.println("Enter your date of birth\n");
+                System.out.println("Enter your date of birth");
                 StringBuilder dateOfBirth = new StringBuilder();
                 System.out.println("day(dd):");
                 String day = scan.next();
@@ -131,6 +131,6 @@ public class AdmissionsOffice {
     public static void returnOfDocuments() throws IOException, ClassNotFoundException {
         SaveLoadFiles.showInformationFromFile("Lesson2/src/main/resources/state.bin");
         Pass.takePassFromAnApplicant();
-        System.out.println("Your documents have been returned");
+        System.out.println("Your documents have been returned\n");
     }
 }

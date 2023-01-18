@@ -34,7 +34,7 @@ public class Main {
         LOG.info("Program start");
         applicant = new Applicant();
         System.out.println("\nWELCOME TO THE UNIVERSITY OF ARTS!\nPlease read the procedure for conducting entrance examinations at the University\n");
-        LOG.info("First of all, the Applicant should read about the procedure for conducting entrance examinations at the University");
+        LOG.info("First of all, the Applicant should read about the procedure for conducting entrance examinations at the University\n");
         applicant.setActivity(new ReadRules());
         applicant.saveActivityAndApplicantInfoToStateFiles();
         readUniversityRules();
@@ -53,7 +53,7 @@ public class Main {
                 main(null);
             }
             case "YES" -> {
-                LOG.info("The Applicant received information about the stages of admission to the University");
+                LOG.info("\nThe Applicant received information about the stages of admission to the University");
                 applicant.setActivity(new ChoosingSpeciality());
                 applicant.saveActivityAndApplicantInfoToStateFiles();
                 AdmissionsOffice.chooseSpeciality();
@@ -98,7 +98,6 @@ public class Main {
                     LOG.info("Admission tests completed");
                 }
             }
-
         }
     }
 

@@ -117,6 +117,6 @@ public class Applicant implements Serializable {
     }
 
     public void saveActivityAndApplicantInfoToStateFiles() throws IOException {
-        activity.saveActivityInfo();
+        activity.saveActivityInformation();
     }
 }

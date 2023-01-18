@@ -16,8 +16,8 @@ public class ExamBoard {
     public static final byte MIN_PASS_SCORE = 39;
 
     public static void passExam() throws Exception {
-        System.out.printf("\nExam Board:\nNow is time for the exams.\nYour exams will be taken in campus %d.\nYou have 3 exams. Passing score for each exam is %d \n", Faculty.valueOf(applicant.getFaculty()).getCampus(), ExamBoard.MIN_PASS_SCORE);
-        System.out.println("Are you ready to take your exams? (yes/no)");
+        System.out.printf("Exam Board:\nNow is time for the exams.\nYour exams will be taken in campus %d.\nYou have 3 exams. Passing score for each exam is %d", Faculty.valueOf(applicant.getFaculty()).getCampus(), ExamBoard.MIN_PASS_SCORE);
+        System.out.println("\nAre you ready to take your exams? (yes/no)");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
         try {
@@ -37,7 +37,7 @@ public class ExamBoard {
                 SaveLoadFiles.showInformationFromFile("Lesson2/src/main/resources/state.bin");
                 ExamSheet.scoreCard();
                 LOG.info("Examination grades are checked for a passing score");
-                String result = grades.stream().anyMatch(grade -> grade < MIN_PASS_SCORE) ? "Exam Board:\nUnfortunately, you did not pass the exam and did not enter the University." : "Exam Board:\nCongratulations! You have passed all the exams.";
+                String result = grades.stream().anyMatch(grade -> grade < MIN_PASS_SCORE) ? "Exam Board:\nUnfortunately, you did not pass the exam and did not enter the University." : "Exam Board:\nCongratulations! You have passed all the exams.\n";
                 System.out.println(result);
                 if (grades.stream().anyMatch(grade -> grade < MIN_PASS_SCORE)) {
                     LOG.info("The Applicant goes to return his documents");

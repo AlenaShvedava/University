@@ -16,8 +16,8 @@ public class Pass implements Serializable {
 
     public static void givePassToApplicant(String ownerName) {
         applicant.myPass = new Pass(ownerName);
-        LOG.info("\nApplicant is issued a pass");
-        System.out.println("\nAdmission Office:\nSIGN THE CONTRACT:\nYou are going to leave your documents with us.\nIn return, you will be issued an Applicant Pass.\nSign that the documents have been exchanged (yes/no)\n");
+        LOG.info("Applicant is issued a pass");
+        System.out.println("\nAdmission Office:\nSIGN THE CONTRACT:\nYou are going to leave your documents with us.\nIn return, you will be issued an Applicant Pass.\nSign that the documents have been exchanged (yes/no)");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next().toUpperCase();
         try {
@@ -29,7 +29,7 @@ public class Pass implements Serializable {
         switch (answer) {
             case "NO" -> {
                 LOG.info("The Applicant does not want to give his documents. To pass the exams, you must leave your documents at the Admissions Office");
-                System.out.println("Signature required");
+                System.out.println("\nSignature required");
                 givePassToApplicant(applicant.getFirstLastName());
             }
             case "YES" -> {

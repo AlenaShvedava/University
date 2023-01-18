@@ -15,7 +15,7 @@ public class SaveLoadFiles {
         }
     }
 
-    public static void showInformationFromFile(String file) throws IOException, ClassNotFoundException {
+    public static void showInformationFromFile(String file) throws ClassNotFoundException, IOException {
         try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(Paths.get(file)))) {
             Applicant applicant = (Applicant) ois.readObject();
             System.out.printf("The Applicant's name is %s, date of birth %s, faculty %s speciality %s\n", applicant.getFirstLastName(), applicant.getDateOfBirth(), applicant.getFaculty(), applicant.getSpeciality());
